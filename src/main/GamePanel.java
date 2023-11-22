@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
+import SoTest.TestScreen;
 
 import javax.swing.*;
 
@@ -45,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
 //    public final int pauseState = 2;
 //    public final int dialogueState = 3;
 
-    public GamePanel() {
+    public GamePanel(TestScreen testScreen) {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
