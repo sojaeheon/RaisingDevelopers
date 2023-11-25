@@ -31,6 +31,8 @@ public class Main extends JFrame {
 	Submit_dto sub;
 
 	public void change(String panelName) {
+		
+		//화면전환코드부분!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if (panelName.equals("quizpanel")) {
 			this.quizpanel = new QuizGame(this, sub.chap);
 			getContentPane().removeAll();
