@@ -1,4 +1,6 @@
 package SoTest;
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +22,11 @@ import dto.QuizQuestion;
 import dto.Submit_dto;
 import SoTest.KeyListener;
 
-public class QuizGame extends JPanel implements Runnable {
+public class QuizGame extends JPanel  {
 	//11/23
 	private Image screenImage;
 	private Graphics screenGraphic;
+	public static boolean QuizStart=false;
 	//11/23
 	private Image introBackground =  new ImageIcon(this.getClass().getResource("../res/background/QuizGame_images.png")).getImage();
 	
@@ -35,6 +38,8 @@ public class QuizGame extends JPanel implements Runnable {
 	private JLabel lbl_chapnum;
 	private JLabel timerLabel;
 	private int chap;
+	
+	
 	
 	private Font font = new Font("Monospaced",Font.BOLD,20);
 	
@@ -52,7 +57,7 @@ public class QuizGame extends JPanel implements Runnable {
 		questions = db.load_Problem(chap);
 		initialize();
 		displayQuestion();
-		addKeyListener(new KeyListener());
+		
 		Music introMusic = new Music("introMusic.mp3",true);
 		introMusic.start();
 		
@@ -65,11 +70,6 @@ public class QuizGame extends JPanel implements Runnable {
 		this.setPreferredSize(new Dimension(Main.screenWidth, Main.screenHeight));
 		this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
-        
-        
-       
-		this.requestFocus();
-		setFocusable(true);
         
         
       //문제가 출력되는 창
@@ -86,14 +86,33 @@ public class QuizGame extends JPanel implements Runnable {
 		input_area.setBounds(81,395,475,40);
 		this.add(input_area);
 		input_area.setColumns(10);
+		input_area.requestFocus();
+		input_area.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					goToNextQuestion();
+				}
+			}
+		});
 		
 		lbl_chapnum = new JLabel("Chapter : "+ Integer.toString(chap));
 		lbl_chapnum.setBounds(115, 152, 125, 20);
 		this.add(lbl_chapnum);
 		
-		lbl_quesnum = new JLabel("문제번호");
+		lbl_quesnum = new JLabel("문제 : "+Integer.toString(Submit_dto.chap));
 		lbl_quesnum.setBounds(82, 187, 76, 13);
 		this.add(lbl_quesnum);
+		
+		timerLabel = new JLabel();
+		timerLabel.setOpaque(true);
+		timerLabel.setBackground(Color.WHITE);
+		Font timer_font = new Font("Monospaced",Font.BOLD,16);
+		timerLabel.setFont(timer_font);
+		Timer timer = new Timer(timerLabel, 2);
+		timer.start();
+		timerLabel.setBounds(575, 208, 70, 15);
+		add(timerLabel);
 		
 		//이전 문제 이동
 		JButton btn_left = new JButton("<");
@@ -298,7 +317,7 @@ public class QuizGame extends JPanel implements Runnable {
 		btn_submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//        		timer.interrupt();
+        		timer.interrupt();
         		
                 checkAnswer();
                 
@@ -311,12 +330,6 @@ public class QuizGame extends JPanel implements Runnable {
 		
 	}
 	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-		
-	}
 
 	private void displayQuestion() {
     	QuizQuestion currentQuestion = questions.get(currentQuestionIndex);
@@ -331,9 +344,10 @@ public class QuizGame extends JPanel implements Runnable {
 			currentUserAnswer = input_area.getText();
     		user_ansArray[currentQuestionIndex] = currentUserAnswer;
             currentQuestionIndex++;
-            lbl_quesnum.setText(Integer.toString(currentQuestionIndex+1));
+            lbl_quesnum.setText("문제 : "+Integer.toString(currentQuestionIndex+1));
             displayQuestion();
             input_area.requestFocus();
+            
             
         } else {
             JOptionPane.showMessageDialog(this, "모든 문제를 푸셨습니다!");
@@ -346,7 +360,7 @@ public class QuizGame extends JPanel implements Runnable {
     		currentUserAnswer = input_area.getText();
     		user_ansArray[currentQuestionIndex] = currentUserAnswer;
             currentQuestionIndex--;
-			lbl_quesnum.setText(Integer.toString(currentQuestionIndex+1));
+			lbl_quesnum.setText("문제 : "+Integer.toString(currentQuestionIndex+1));
             displayQuestion();
             input_area.requestFocus();
         } else {
@@ -368,6 +382,8 @@ public class QuizGame extends JPanel implements Runnable {
 					score+=0.09;
 					count++;
 				}
+				
+				
 			}catch(NullPointerException e) {
 				
 			}
@@ -375,7 +391,7 @@ public class QuizGame extends JPanel implements Runnable {
 		}
 		
 		
-		
+
         JOptionPane.showMessageDialog(this, "총 10문제 중 "+count+"정답 \n 획득 점수는 "+count*10+"입니다!!");
         
         Submit_dto sub = null;
@@ -385,10 +401,8 @@ public class QuizGame extends JPanel implements Runnable {
 //        new Status();
         
         
-        
-        
-        
 	}
+	
 	
 	//11/23
 	public void paint(Graphics g) {
@@ -398,11 +412,80 @@ public class QuizGame extends JPanel implements Runnable {
 		g.drawImage(screenImage, 0, 0, null);
 	}
 	
+	
+	
 	public void screenDraw(Graphics g) {
 		g.drawImage(introBackground, 0, 0, this.getWidth(), this.getHeight(), 0, 0, Main.screenWidth, Main.screenHeight, null);
 		this.paintComponents(g);
 		this.repaint();
 	}
 	
+	public class Timer extends Thread{
+		
+		private JLabel timerLabel;
+		
+
+		private int minute;
+		private int second;
+		
+		public Timer(JLabel timerLabel,int time) {
+			this.timerLabel = timerLabel;
+
+			
+			minute = time/60;
+			second = time%60;
+			
+			
+		}
+		
+
+		@Override
+		public void run() {
+			
+
+			// TODO Auto-generated method stub
+			while (true) {
+				timerLabel.setText(minute + " : " + second);
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					return;
+				}
+				if(minute ==0) {
+					if(second == 0) {
+						System.out.println("스레드 종료");
+						break;
+						
+					} else {
+						second--;
+					}
+				}else {
+					if(second==0) {
+						minute--;
+						second=59;
+					}else {
+						second--;
+					}
+				}
+				
+				if(minute==0&&second==0) {
+					break;
+					
+				}
+
+				
+			}
+			if(minute==0&& second==0) {
+				checkAnswer();
+			}
+			
+			
+		
+
+		}
+		
+		
+	}
 	
 }

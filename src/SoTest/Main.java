@@ -37,8 +37,7 @@ public class Main extends JFrame {
 			getContentPane().add(quizpanel);
 			revalidate();
 			repaint();
-			setFocusable(true);
-			requestFocus();
+			
 		} else if (panelName.equals("gamepanel")) {
 			this.gamepanel = new GamePanel(this);
 			this.getContentPane().removeAll();
@@ -46,8 +45,8 @@ public class Main extends JFrame {
 			gamepanel.startGameThread();
 			revalidate();
 			repaint();
+			gamepanel.requestFocus();
 		} else if (panelName.equals("intropanel")) {
-			
 			getContentPane().removeAll();
 			getContentPane().add(intropanel);
 			revalidate();
@@ -75,12 +74,11 @@ public class Main extends JFrame {
 		setLocationRelativeTo(null);
 
 		
-		this.quizpanel = new QuizGame(this, sub.chap);
-		setFocusable(true);
+//		this.quizpanel = new QuizGame(this, sub.chap);
 		this.intropanel = new Intro_Test(this);
 		
 
-		add(this.quizpanel);
+		add(this.intropanel);
 		
 //		gamepanel.startGameThread();
 

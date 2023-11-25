@@ -34,9 +34,7 @@ public class KeyHandler implements KeyListener {
             rightPressed = true;
 
         }
-        if(code == KeyEvent.VK_ENTER) {
-        Main.quizpanel.goToNextQuestion();
-        }
+        
     }
 
     @Override

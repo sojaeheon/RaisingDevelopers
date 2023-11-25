@@ -91,7 +91,6 @@ public class Player extends Entity implements Runnable {
     }
 
     public void update() {
-    	System.out.println("나 여기있어요");
     	
         if(keyH.upPressed == true || keyH.downPressed == true ||
                 keyH.leftPressed == true || keyH.rightPressed == true) {

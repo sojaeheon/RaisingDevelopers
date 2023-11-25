@@ -48,7 +48,7 @@ public class Intro_Test extends JPanel {
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-            	checkAnswer();
+            	testScreen.change("gamepanel");
             }
         });
     	
@@ -69,12 +69,6 @@ public class Intro_Test extends JPanel {
 //	}
 
 	
-	private void checkAnswer() {
-		JOptionPane.showMessageDialog(this, "게임을 시작합니다.");
-        testScreen.change("gamepanel");
-        
-        
-        
-	}
+
 
 }

@@ -16,10 +16,10 @@ public class DBconnection {
 	private ArrayList<QuizQuestion> questions;
 	
 	
-	String server = "jdbc:mysql://localhost:3306/game"; // 서버 주소
+	String server = "jdbc:mysql://203.234.62.226:3306/game"; // 서버 주소
     
-    String user_name = "root"; //  접속자 id
-    String password = "2049"; // 접속자 pw
+    String user_name = "RaisingDeveloper"; //  접속자 id
+    String password = "1234"; // 접속자 pw
 	
 	public DBconnection() {
 		
