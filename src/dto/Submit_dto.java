@@ -1,21 +1,10 @@
 package dto;
 
 public class Submit_dto {
-	private int count;
-	private int chap;
+	public static int score=0;
+	public static int chap=1;
+	public static int level = 0;
 
-    public Submit_dto(int count,int chap) {
-        this.count = count;
-        this.chap = chap;
-    }
-    
-
-    public int getCount() {
-        return count;
-    }
-
-    public int getChap() {
-        return chap;
-    }
+   
     
 }

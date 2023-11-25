@@ -1,19 +1,17 @@
-package main;
+package SoTest;
 
-import background.*;
+import background.Home;
 import entity.Player;
 import tile.TileManager;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Dimension;
-import SoTest.TestScreen;
-
 import javax.swing.*;
 
-public class GamePanel extends JPanel implements Runnable{
-    private Lab lab;
+import java.awt.*;
+
+public class HomePanel extends JPanel implements Runnable {
+    private Home home;
+    
+    Main testScreen;
 
     //SCREEN SETTING
     final int originalTilesize = 16; // 16X16 title
@@ -33,38 +31,28 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     Player player = new Player(this, keyH);
-//    Object object = new Object(this);
 
     // set player's defalut position
     int playerX = 100;
     int playerY = 100;
     int playerSpeed = 4;
 
-    //GAME STATE
-//    public int gameState;
-//    public final int playState = 1;
-//    public final int pauseState = 2;
-//    public final int dialogueState = 3;
-
-    public GamePanel(TestScreen testScreen) {
+    public HomePanel(Main testScreen) 
+    {	
+    	this.testScreen = testScreen;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        lab = new Lab(this);
-        lab.add(new JButton("tlqkf"));
+        home = new Home(this);
     }
 
-//    public void setupGame() {
-//        gameState = playState;
-//    }
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-
 
     public void run() {
         double drawInterval = 1000000000/FPS;
@@ -95,10 +83,10 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    public void update() {
-        player.update();
-    }
 
+    public void update() {
+        player.update_h();
+    }
 
     public void paintComponent(Graphics g) {
 
@@ -106,13 +94,11 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
-        lab.draw(g2);
-        tileM.draw(g2);
-        player.draw(g2);
-//        object.draw(g2);
+        home.draw(g2);
+        tileM.draw_h(g2);
+        player.draw_h(g2);
 
         g2.dispose();
+
     }
-
-
 }

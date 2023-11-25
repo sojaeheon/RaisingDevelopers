@@ -1,13 +1,18 @@
-package main;
+package SoTest;
 
-import background.Intro;
-import main.GamePanel;
+import background.*;
+import entity.Player;
+import tile.TileManager;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Dimension;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class IntroPanel extends JPanel implements Runnable {
-    private Intro intro;
+public class GamePanel extends JPanel implements Runnable{
+    private Lab lab;
 
     //SCREEN SETTING
     final int originalTilesize = 16; // 16X16 title
@@ -19,23 +24,47 @@ public class IntroPanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol; //768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
+    private Main testScreen;
+    //FPS
     int FPS = 60;
 
+    TileManager tileM = new TileManager(this);
+    KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+    public CollisionChecker cChecker = new CollisionChecker(this);
+    Player player = new Player(this, keyH);
+//    Object object = new Object(this);
 
-    public IntroPanel() {
+    // set player's defalut position
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4;
+
+    //GAME STATE
+//    public int gameState;
+//    public final int playState = 1;
+//    public final int pauseState = 2;
+//    public final int dialogueState = 3;
+
+    public GamePanel(Main testScreen) {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        intro = new Intro(this);
+        lab = new Lab(this);
+        lab.add(new JButton("tlqkf"));
     }
 
+//    public void setupGame() {
+//        gameState = playState;
+//    }
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
 
     public void run() {
         double drawInterval = 1000000000/FPS;
@@ -66,17 +95,24 @@ public class IntroPanel extends JPanel implements Runnable {
             }
         }
     }
+    public void update() {
+        player.update();
+    }
 
-    public void update() { }
 
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D)g;
 
-        intro.draw(g2);
+        lab.draw(g2);
+        tileM.draw(g2);
+        player.draw(g2);
+//        object.draw(g2);
 
         g2.dispose();
     }
+
+
 }

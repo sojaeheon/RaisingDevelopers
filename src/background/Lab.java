@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import main.GamePanel;
+import SoTest.GamePanel;
 
 public class Lab extends JPanel {
     private BufferedImage labImage;

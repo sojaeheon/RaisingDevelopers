@@ -1,14 +1,14 @@
 package tile;
 
-import main.HomePanel;
-import main.GamePanel;
-
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
+
+import SoTest.GamePanel;
+import SoTest.HomePanel;
 
 public class TileManager {
     GamePanel gp;

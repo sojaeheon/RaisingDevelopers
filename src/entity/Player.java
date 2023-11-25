@@ -1,15 +1,16 @@
 package entity;
 
-import main.GamePanel;
-import main.HomePanel;
-import main.KeyHandler;
-
 import javax.imageio.ImageIO;
+
+import SoTest.GamePanel;
+import SoTest.HomePanel;
+import SoTest.KeyHandler;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Entity {
+public class Player extends Entity implements Runnable {
 
     GamePanel gp;
     HomePanel hp;
@@ -23,6 +24,7 @@ public class Player extends Entity {
     public Player(HomePanel hp, KeyHandler keyH) {
         this.hp = hp;
         this.keyH = keyH;
+
 
         screenX = hp.screenWidth/2 - (hp.tileSize/2);
         screenY = hp.screenHeight/2 - (hp.tileSize/2);
@@ -89,11 +91,13 @@ public class Player extends Entity {
     }
 
     public void update() {
-
+    	System.out.println("나 여기있어요");
+    	
         if(keyH.upPressed == true || keyH.downPressed == true ||
                 keyH.leftPressed == true || keyH.rightPressed == true) {
             if(keyH.upPressed == true) {
                 direction = "up";
+
             }
             else if(keyH.downPressed == true) {
                 direction = "down";
@@ -306,4 +310,10 @@ public class Player extends Entity {
         int PlayerHeight = (int) (hp.tileSize * scale);
         g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
     }
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,9 +1,10 @@
 package background;
 
-import main.HomePanel;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import SoTest.HomePanel;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

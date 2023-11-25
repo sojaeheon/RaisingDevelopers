@@ -1,4 +1,4 @@
-package main;
+package SoTest;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -17,7 +17,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
-
+        System.out.println(code);
         if (code == KeyEvent.VK_W) {
             upPressed = true;
 
@@ -33,6 +33,9 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
 
+        }
+        if(code == KeyEvent.VK_ENTER) {
+        Main.quizpanel.goToNextQuestion();
         }
     }
 
