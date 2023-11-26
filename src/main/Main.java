@@ -1,63 +1,24 @@
 package main;
 
-import background.Home;
-import background.Intro;
-
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-public class Main{
-
-    public static void setIntro() {
-        JFrame introFrame = new JFrame();
-        introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        introFrame.setResizable(false);
-        introFrame.setTitle("연구원 키우기");
-        IntroPanel introPanel = new IntroPanel();
-        introFrame.add(introPanel);
-        introFrame.pack();
-        introFrame.setLocationRelativeTo(null);
-        introFrame.setVisible(true);
-        introPanel.startGameThread();
-    }
-
-    public static void setLab() {
-        JFrame labFrame = new JFrame();
-        labFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        labFrame.setResizable(false);
-        labFrame.setTitle("연구실");
-        GamePanel gamePanel = new GamePanel();
-        labFrame.add(gamePanel);
-        labFrame.pack();
-        labFrame.setLocationRelativeTo(null);
-        labFrame.setVisible(true);
-        gamePanel.startGameThread();
-    }
-
-    public static void setHome() {
-        JFrame homeFrame = new JFrame();
-        homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        homeFrame.setResizable(false);
-        homeFrame.setTitle("집");
-        HomePanel homePanel = new HomePanel();
-        homeFrame.add(homePanel);
-        homeFrame.pack();
-        homeFrame.setLocationRelativeTo(null);
-        homeFrame.setVisible(true);
-        homePanel.startGameThread();
-    }
-
-    public static void run() {
-//        setIntro();
-        setLab();
-//        setHome();
-    }
-
+public class Main {
     public static void main(String[] args) {
-        run();
+        JFrame window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setTitle("연구원 키우기 게임");
+
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+
+        window.pack();
+
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        gamePanel.setupGame();
+        gamePanel.startGameThread();
     }
 }
 
