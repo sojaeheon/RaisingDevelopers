@@ -6,6 +6,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import main.RankPanel;
 
 public class Main{
 
@@ -21,7 +23,17 @@ public class Main{
         introFrame.setVisible(true);
         introPanel.startGameThread();
     }
-
+    public static void setRanking() {
+		JFrame rankingFrame = new JFrame();
+		rankingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		rankingFrame.setResizable(false);
+		rankingFrame.setTitle("랭킹");
+        RankPanel rankPanel = new RankPanel();
+        rankingFrame.add(rankPanel);
+        rankingFrame.pack();
+        rankingFrame.setLocationRelativeTo(null);
+        rankingFrame.setVisible(true);
+	}
     public static void setLab() {
         JFrame labFrame = new JFrame();
         labFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +77,8 @@ public class Main{
 //      setIntro();
 //      setLab();
 //      setHome();
-		setEnding();
+//		setEnding();
+    	setRanking();
     }
 
     public static void main(String[] args) {

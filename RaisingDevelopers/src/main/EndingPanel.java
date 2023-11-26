@@ -37,12 +37,6 @@ public class EndingPanel extends JPanel implements Runnable{
     int playerY = 100;
     int playerSpeed = 4;
 
-    //GAME STATE
-//    public int gameState;
-//    public final int playState = 1;
-//    public final int pauseState = 2;
-//    public final int dialogueState = 3;
-
     public EndingPanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
