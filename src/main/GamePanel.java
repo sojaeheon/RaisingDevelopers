@@ -1,10 +1,8 @@
 package main;
 
 import background.*;
-import entity.Entity;
 import entity.NPC_Prof;
 import entity.Player;
-import kotlin.time.ExperimentalTime;
 import tile.TileManager;
 
 import java.awt.Color;
@@ -14,7 +12,7 @@ import java.awt.Dimension;
 
 import javax.swing.*;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable{
 
     //SCREEN SETTING
     public final int originalTilesize = 16; // 16X16 tile
@@ -23,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = originalTilesize * scale; // 48*48 tile
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 16;
-    public final int maxMap = 10;
+    public final int maxMap = 2;
     public int currentMap = 0;
     public final int screenWidth = tileSize * maxScreenCol; //768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
@@ -39,9 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     public EventHandler eHandler = new EventHandler(this);
     public Player player = new Player(this, keyH);
-//    public NPC_Prof npc = new NPC_Prof(this, keyH);
-
-    public Entity npc[][] = new Entity[maxMap][2];
+    public NPC_Prof npc = new NPC_Prof(this, keyH);
 
     // set player's defalut position
     int playerX = 100;
@@ -74,14 +70,14 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void run() {
-        double drawInterval = 1000000000 / FPS;
+        double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long drawCount = 0;
         long timer = 0;
 
-        while (gameThread != null) {
+        while(gameThread !=null) {
 
             currentTime = System.nanoTime();
 
@@ -89,33 +85,42 @@ public class GamePanel extends JPanel implements Runnable {
             timer += (currentTime - lastTime);
             lastTime = currentTime;
 
-            if (delta >= -1) {
+            if(delta >= -1) {
                 update();
                 repaint();
                 delta--;
                 drawCount++;
             }
-            if (timer >= 1000000000) {
+            if(timer >= 1000000000) {
 //                System.out.println("FPS:"+ drawCount);
                 drawCount = 0;
                 timer = 0;
             }
         }
     }
-
     public void update() {
-        if (gameState == playState) {
+        if(gameState == playState) {
+            switch (currentMap) {
+                case 0: tileM.loadMap("/res/background/map_Home.txt", 0);
+                    bgM.getImage("Home");
+                    break;
+                case 1: tileM.loadMap("/res/background/map_Lab.txt", 1);
+                    bgM.getImage("Lab"); npc.update(); npc.speak();
+                    break;
+            }
             // PLAYER
             player.update();
             // NPC
-            for (int i = 0; i < npc[1].length; i++) {
-                if (npc[currentMap][i] != null) {
-                    npc[currentMap][i].update();
-                }
-            }
-            if (gameState == pauseState) {
-                //nothing
-            }
+//            if (currentMap == 0) {
+////                npc.update();
+//            }
+//            else if (currentMap == 1) {
+//                npc.update();
+//                npc.speak();
+//            }
+        }
+        if(gameState == pauseState) {
+            //nothing
         }
     }
 
@@ -124,7 +129,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D)g;
 
         //DEBUG
         long drawStart = 0;
@@ -135,12 +140,22 @@ public class GamePanel extends JPanel implements Runnable {
         // TITLE SCREEN
         if (gameState == titleState) {
             ui.draw(g2);
-        } else {
-            bgM.draw(g2);
-            tileM.draw(g2);
-            player.draw(g2);
-            ui.draw(g2);
-//            npc.draw(g2);
+        }
+        else {
+                this.revalidate();
+                this.repaint();
+                bgM.draw(g2);
+                tileM.draw(g2);
+                player.draw(g2);
+            if (currentMap == 1) {
+                this.revalidate();
+                this.repaint();
+                bgM.draw(g2);
+                tileM.draw(g2);
+                player.draw(g2);
+                ui.draw(g2);
+                npc.draw(g2);
+            }
         }
 
         //DEBUG
@@ -153,4 +168,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.dispose();
     }
+
+
 }

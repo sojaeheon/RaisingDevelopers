@@ -2,6 +2,7 @@ package tile;
 
 //import main.HomePanel;
 import main.GamePanel;
+//import main.HomePanel;
 import main.UtilityTool;
 
 import java.awt.*;
@@ -13,6 +14,7 @@ import javax.imageio.ImageIO;
 
 public class TileManager {
     GamePanel gp;
+//    HomePanel hp;
     public Tile[] tile;
     public int mapTileNum[][][];
 
@@ -25,8 +27,18 @@ public class TileManager {
         loadMap("/res/background/map_Home.txt", 0);
         loadMap("/res/background/map_Lab.txt", 1);
     }
+
+//    public TileManager(HomePanel hp) {
+//        this.hp = hp;
+//        tile = new Tile[10];
+//        mapTileNum = new int[hp.maxScreenCol][hp.maxScreenRow];
+//        loadLabMap("/res/background/map_Home.txt");
+//        getTileImage();
+//    }
+
     public void getTileImage() {
-        setup(0, "tile", false);
+        // Lab
+        setup(0, "tile", false); // 바닥
         setup(1, "tile", true);
         setup(2, "tile", true);
         setup(3, "tile", true);
@@ -34,15 +46,16 @@ public class TileManager {
         setup(5, "tile", true);
         setup(6, "tile", true);
         setup(7, "tile", true);
-        setup(8, "tile", "prof");
+        setup(8, "tile", "prof"); // NPC
 
+        // Home
         setup(9, "tile", true);
         setup(10, "tile", true);
         setup(11, "tile", true);
         setup(12, "tile", true);
         setup(13, "tile", true);
         setup(14, "tile", true);
-        setup(15, "tile", false);
+        setup(15, "tile", false); // 바닥
     }
 
     public void setup(int index, String imageName, boolean collision) {
@@ -71,9 +84,6 @@ public class TileManager {
     }
 
     public void loadMap(String filePath, int map) {
-        if (map == 0) {
-
-        }
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));

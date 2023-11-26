@@ -15,8 +15,8 @@ public class BgManager extends Bg {
     public BgManager(GamePanel gp) {
         this.gp = gp;
 
-        getImage("Home", 0);
-        getImage("Lab", 1);
+        getImage("Home");
+        getImage("Lab");
     }
 
 //    public BgManager(HomePanel hp) {
@@ -25,11 +25,9 @@ public class BgManager extends Bg {
 //        getLabImage();
 //    }
 
-    public void getImage(String mapName, int map) {
+    public void getImage(String mapName) {
         try {
             image = ImageIO.read(getClass().getResource("/res/background/" + mapName + ".png"));
-//            bg.imageWidth = bg.image.getWidth();
-//            bg.imageHeight = bg.image.getHeight();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -67,18 +67,22 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) {
                 enterPressed = true;
             }
-            if (code == KeyEvent.VK_T) {
-                if (checkDrawTime == false) {
-                    checkDrawTime = true;
-                }
-                else if (checkDrawTime == true) {
-                    checkDrawTime = false;
-                }
-            }
+//            if (code == KeyEvent.VK_T) {
+//                if (checkDrawTime == false) {
+//                    checkDrawTime = true;
+//                }
+//                else if (checkDrawTime == true) {
+//                    checkDrawTime = false;
+//                }
+//            }
             if (code == KeyEvent.VK_R) {
                 switch (gp.currentMap) {
-                    case 0: gp.tileM.loadMap("/res/backgroud/map_Home.txt", 0); break;
-                    case 1: gp.tileM.loadMap("/res/backgroud/map_Lab.txt", 1); break;
+                    case 0: gp.tileM.loadMap("/res/background/map_Home.txt", 0);
+                            gp.bgM.getImage("Home");
+                            break;
+                    case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1);
+                        gp.bgM.getImage("Lab");
+                        break;
                 }
             }
         }

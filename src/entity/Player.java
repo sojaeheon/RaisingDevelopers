@@ -12,8 +12,8 @@ public class Player extends Entity {
 //    HomePanel hp;
     KeyHandler keyH;
 
-    public int screenX;
-    public int screenY;
+    public final int screenX;
+    public final int screenY;
 
 
     int counter2 = 0;
@@ -55,11 +55,21 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        x = 600;
-        y = 200;
+//        col = 10;
+//        row = 12;
+        x = 500;
+        y = 500;
         speed = 4;
         direction = "down";
     }
+
+//    private boolean directionChanged = false;
+//    public void changeDirection(String dir) {
+//        if (!directionChanged) {
+//            this.direction = dir;
+//            directionChanged = true;
+//        }
+//    }
 
 //    public void setDefaultValues_h() {
 //        x = 600;
@@ -119,6 +129,12 @@ public class Player extends Entity {
             // CHECK NPC COLLISION
             gp.cChecker.checkEntity(this);
 
+            // CHECK EVENT
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
+
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false) {
                 switch (direction) {
@@ -153,57 +169,56 @@ public class Player extends Entity {
     public void interactNPC() {
         if (gp.keyH.enterPressed == true) {
             gp.gameState = gp.dialogueState;
-//            gp.npc.speak();
+            gp.npc.speak();
         }
-        gp.keyH.enterPressed = false;
     }
 
-//    public void update_h() {
-//
-//        if(keyH.upPressed == true || keyH.downPressed == true ||
-//                keyH.leftPressed == true || keyH.rightPressed == true) {
-//            if(keyH.upPressed == true) {
-//                direction = "up";
-//            }
-//            else if(keyH.downPressed == true) {
-//                direction = "down";
-//            }
-//            else if(keyH.leftPressed == true) {
-//                direction = "left";
-//            }
-//            else if(keyH.rightPressed == true) {
-//                direction = "right";
-//            }
-//
-//            // CHECK TILE COLLISION
-//            collisionOn = false;
+    public void update_h() {
+
+        if(keyH.upPressed == true || keyH.downPressed == true ||
+                keyH.leftPressed == true || keyH.rightPressed == true) {
+            if(keyH.upPressed == true) {
+                direction = "up";
+            }
+            else if(keyH.downPressed == true) {
+                direction = "down";
+            }
+            else if(keyH.leftPressed == true) {
+                direction = "left";
+            }
+            else if(keyH.rightPressed == true) {
+                direction = "right";
+            }
+
+            // CHECK TILE COLLISION
+            collisionOn = false;
 //            hp.cChecker.checkTile_h(this);
-//
-//            // IF COLLISION IS FALSE, PLAYER CAN MOVE
-//            if (collisionOn == false) {
-//                switch (direction) {
-//                    case "up": y -= speed; break;
-//                    case "down": y += speed; break;
-//                    case "left": x -= speed; break;
-//                    case "right": x += speed; break;
-//                }
-//            }
-//
-//            spriteCounter++;
-//            if(spriteCounter > 12) {
-//                if(spriteNum == 1) {
-//                    spriteNum = 2;
-//                }
-//                else if (spriteNum == 2) {
-//                    spriteNum = 3;
-//                }
-//                else if (spriteNum == 3) {
-//                    spriteNum = 1;
-//                }
-//                spriteCounter = 0;
-//            }
-//        }
-//    }
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if (collisionOn == false) {
+                switch (direction) {
+                    case "up": y -= speed; break;
+                    case "down": y += speed; break;
+                    case "left": x -= speed; break;
+                    case "right": x += speed; break;
+                }
+            }
+
+            spriteCounter++;
+            if(spriteCounter > 12) {
+                if(spriteNum == 1) {
+                    spriteNum = 2;
+                }
+                else if (spriteNum == 2) {
+                    spriteNum = 3;
+                }
+                else if (spriteNum == 3) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
+        }
+    }
 
 
     public void draw(Graphics2D g2) {
@@ -260,68 +275,69 @@ public class Player extends Entity {
                 break;
         }
 
+//        g2.drawImage(image, gp.tileSize*col, gp.tileSize*row, null);
         g2.drawImage(image, x, y, null);
     }
 
-//    public void draw_h(Graphics2D g2) {
-////        g2.setColor(Color.white);
-////        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
-//
-//        BufferedImage image = null;
-//
-//        // 확대할 비율 (1.2배로 확대)
-//        double scale = 1.2;
-//
-//        switch (direction) {
-//            case "up":
-//                if (spriteNum == 1) {
-//                    image = up1;
-//                }
-//                if (spriteNum == 2) {
-//                    image = up2;
-//                }
-//                if (spriteNum == 3) {
-//                    image = up3;
-//                }
-//                break;
-//            case "down":
-//                if (spriteNum == 1) {
-//                    image = down1;
-//                }
-//                if (spriteNum == 2) {
-//                    image = down2;
-//                }
-//                if (spriteNum == 3) {
-//                    image = down3;
-//                }
-//                break;
-//            case "left":
-//                if (spriteNum == 1) {
-//                    image = left1;
-//                }
-//                if (spriteNum == 2) {
-//                    image = left2;
-//                }
-//                if (spriteNum == 3) {
-//                    image = left3;
-//                }
-//                break;
-//            case "right":
-//                if (spriteNum == 1) {
-//                    image = right1;
-//                }
-//                if (spriteNum == 2) {
-//                    image = right2;
-//                }
-//                if (spriteNum == 3) {
-//                    image = right3;
-//                }
-//                break;
-//        }
-//
-//
+    public void draw_h(Graphics2D g2) {
+//        g2.setColor(Color.white);
+//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+
+        BufferedImage image = null;
+
+        // 확대할 비율 (1.2배로 확대)
+        double scale = 1.2;
+
+        switch (direction) {
+            case "up":
+                if (spriteNum == 1) {
+                    image = up1;
+                }
+                if (spriteNum == 2) {
+                    image = up2;
+                }
+                if (spriteNum == 3) {
+                    image = up3;
+                }
+                break;
+            case "down":
+                if (spriteNum == 1) {
+                    image = down1;
+                }
+                if (spriteNum == 2) {
+                    image = down2;
+                }
+                if (spriteNum == 3) {
+                    image = down3;
+                }
+                break;
+            case "left":
+                if (spriteNum == 1) {
+                    image = left1;
+                }
+                if (spriteNum == 2) {
+                    image = left2;
+                }
+                if (spriteNum == 3) {
+                    image = left3;
+                }
+                break;
+            case "right":
+                if (spriteNum == 1) {
+                    image = right1;
+                }
+                if (spriteNum == 2) {
+                    image = right2;
+                }
+                if (spriteNum == 3) {
+                    image = right3;
+                }
+                break;
+        }
+
+
 //        int PlayerWidth = (int) (hp.tileSize * scale);
 //        int PlayerHeight = (int) (hp.tileSize * scale);
 //        g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
-//    }
+    }
 }
