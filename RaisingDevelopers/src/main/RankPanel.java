@@ -1,11 +1,13 @@
 package main;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -15,24 +17,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class RankPanel extends JPanel{
+    //private Ranking rank;
 	JTextField userInput;
-    final int originalTilesize = 16;
+    //SCREEN SETTING
+    final int originalTilesize = 16; // 16X16 title
     final int scale = 3;
     BgManager bgm = new BgManager(this);
-    public final int tileSize = originalTilesize * scale;
+    public final int tileSize = originalTilesize * scale; // 48*48 title
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 16;
     public final int screenWidth = tileSize * maxScreenCol; //768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://203.234.62.226:3306/game";
     static final String USER = "RaisingDeveloper";
     static final String PASS = "1234";
+    
     
     static int stringx = 275;
     static int stringy = 280;
@@ -43,18 +47,24 @@ public class RankPanel extends JPanel{
     static double[] score = new double[6];
     static int i = 0;
     
-
+    int FPS = 60;
     KeyHandler keyH = new KeyHandler();
+    Thread gameThread;
     String userName;
     
     public RankPanel() {
+//    	JLabel label = new JLabel("여기에 텍스트가 표시됩니다.");
+//    	label.setBounds(100, 100, 10, 10);
+//    	this.add(label);
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
-        this.setLayout(null);
+        
+
         userInput = new JTextField(20);
-        userInput.setBounds(500, 230, 100, 30);
+        userInput.setBounds(100, 50, 150, 30);
+        
         this.add(userInput);
         userInput.addKeyListener(new KeyAdapter() {
         	@Override
@@ -70,6 +80,7 @@ public class RankPanel extends JPanel{
     }
     public void rankString()
     {
+    	
     	String sqlInsert = "INSERT INTO game.rank(user_id, user_score) VALUES (?, ?)";
     	String sqlSelect = "SELECT * FROM game.rank ORDER BY user_score DESC";
     	Connection conn = null;
@@ -154,4 +165,3 @@ public class RankPanel extends JPanel{
 
 
 }
-

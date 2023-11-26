@@ -23,17 +23,7 @@ public class Main{
         introFrame.setVisible(true);
         introPanel.startGameThread();
     }
-    public static void setRanking() {
-		JFrame rankingFrame = new JFrame();
-		rankingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		rankingFrame.setResizable(false);
-		rankingFrame.setTitle("랭킹");
-        RankPanel rankPanel = new RankPanel();
-        rankingFrame.add(rankPanel);
-        rankingFrame.pack();
-        rankingFrame.setLocationRelativeTo(null);
-        rankingFrame.setVisible(true);
-	}
+    
     public static void setLab() {
         JFrame labFrame = new JFrame();
         labFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,6 +62,18 @@ public class Main{
         endingFrame.setVisible(true);
         endingPanel.startGameThread();
     }
+    
+    public static void setRanking() {
+		JFrame rankingFrame = new JFrame();
+		rankingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		rankingFrame.setResizable(false);
+		rankingFrame.setTitle("랭킹");
+        RankPanel rankPanel = new RankPanel();
+        rankingFrame.add(rankPanel);
+        rankingFrame.pack();
+        rankingFrame.setLocationRelativeTo(null);
+        rankingFrame.setVisible(true);
+	}
 
     public static void run() {
 //      setIntro();

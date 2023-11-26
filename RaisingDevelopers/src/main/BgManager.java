@@ -14,7 +14,7 @@ public class BgManager extends Bg {
     public BgManager(RankPanel rp) {
         this.rp = rp;
 
-        getImage("Ranking");
+        getImage("ranking");
     }
   
     public void getImage(String mapName) {
