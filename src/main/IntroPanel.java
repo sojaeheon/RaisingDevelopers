@@ -1,13 +1,7 @@
 package main;
 
-import background.Intro;
-import main.GamePanel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class IntroPanel extends JPanel implements Runnable {
 
