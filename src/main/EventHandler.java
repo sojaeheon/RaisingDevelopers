@@ -1,28 +1,14 @@
 package main;
 
-import java.awt.*;
-
-import javax.swing.JOptionPane;
-
-
-import dto.Submit_dto;
-
-
 public class EventHandler {
     GamePanel gp;
     EventRect eventRect[][][];
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
-    
-    Submit_dto sub;
-    
-    Main main;
 
-    public EventHandler(GamePanel gp, Main main) {
+    public EventHandler(GamePanel gp) {
         this.gp = gp;
-        this.main = main;
-        System.out.println(gp+"이벤트 게임이 오류냐");
         eventRect = new EventRect[gp.maxMap][gp.maxScreenCol][gp.maxScreenRow];
         int map = 0;
         int col = 0;
@@ -35,8 +21,6 @@ public class EventHandler {
             eventRect[map][col][row].height = 2;
             eventRect[map][col][row].eventRectDefaultX = eventRect[map][col][row].x;
             eventRect[map][col][row].eventRectDefaultY = eventRect[map][col][row].y;
-            
-            
 
             col++;
             if (col == gp.maxScreenCol) {
@@ -62,35 +46,14 @@ public class EventHandler {
 
         if (canTouchEvent == true) {
             if ((hit(1,13,2,"any") == true || hit(1,13,2,"any") == true))
-            {
-            	teleport(0,9,12);
-            }
+            {teleport(0,9,12);}
             else if ((hit(0,13,4,"any") == true || hit(0,12,4,"any") == true))
-            {
-            	teleport(1,13,3);
-            }
+            {teleport(1,13,3);}
             else if ((hit(1,8,13,"any"))==true) {
-            	
-            	gp.stopGameThread();
-            	
-            	int result = JOptionPane.showConfirmDialog(gp, "퀴즈 게임을 시작하겠습니까?","confirm",JOptionPane.YES_NO_OPTION);
-            	
-            	if(result == JOptionPane.CLOSED_OPTION) {
-            		gp.startGameThread();
-            		gp.repaint();
-            		teleport(1,9,13);
-            	}else if(result == JOptionPane.YES_OPTION) {
-            		main.change("quizpanel");
-
-            	}else {
-            		gp.startGameThread();
-            		teleport(1,9,13);
-            		
-            	}
-            }
+            	gp.gameState = gp.load_quiz_state;
             }
         }
-    
+    }
 
     public boolean hit(int map, int col, int row, String reqDirection) {
         boolean hit = false;
@@ -120,13 +83,16 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row) {
+
         gp.currentMap = map;
         gp.player.x = gp.tileSize*col;
         gp.player.y = gp.tileSize*row;
         previousEventX = gp.player.x;
         previousEventY = gp.player.y;
         canTouchEvent = false;
+        switch (gp.currentMap) {
+            case 0: gp.tileM.loadMap("/res/background/map_Home.txt", 0); gp.bgM.getImage("Home"); break;
+            case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1); gp.bgM.getImage("Lab"); break;
+        }
     }
-    
-    
 }

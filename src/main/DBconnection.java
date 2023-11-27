@@ -57,7 +57,6 @@ public class DBconnection {
 	        
 	        if (questions.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "문제가 없습니다.");
-                System.exit(0);
             }
 	        
 	    } catch(SQLException e) {

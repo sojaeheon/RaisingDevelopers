@@ -1,37 +1,33 @@
 package entity;
 
 import main.GamePanel;
-import main.KeyHandler;
-import main.UtilityTool;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.Random;
 
 public class NPC_Prof extends Entity {
-    int spriteCounter = gp.player.spriteCounter;
-    int spriteNum = gp.player.spriteNum;
-    KeyHandler keyH;
-    public NPC_Prof(GamePanel gp, KeyHandler keyH) {
+    public NPC_Prof(GamePanel gp) {
         super(gp);
-        this.keyH = keyH;
 
-        setDefaultValues();
-        getNPCImage();
+        direction = "down";
+        speed = 1;
+
+        getImage();
         setDialogue();
     }
 
-    public void setDefaultValues() {
-        x = 58;
-        y = 240;
-        direction = "down";
-    }
-
-    public void getNPCImage() {
-        npc0 = setup("NPC0");
-        npc1 = setup("NPC1");
-        npc2 = setup("NPC2");
+    public void getImage() {
+        up1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
+        up2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
+        up3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        down1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
+        down2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
+        down3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        left1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
+        left2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
+        left3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        right1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
+        right2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
+        right3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
     }
 
     public void setDialogue() {
@@ -43,56 +39,30 @@ public class NPC_Prof extends Entity {
         dialogues[5] = "오늘도 파이팅이다! \n그럼 이만..";
     }
 
-    public BufferedImage setup(String imageName) {
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/res/NPC/" + imageName + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize+30, gp.tileSize+30);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
-
     public void setAction() {
-        if(keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true) {
 
-            spriteCounter++;
-            if(spriteCounter > 48) {
-                if(spriteNum == 1) {
-                    spriteNum = 2;
-                }
-                else if (spriteNum == 2) {
-                    spriteNum = 3;
-                }
-                else if (spriteNum == 3) {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
+        actionLockCounter ++;
+
+        if(actionLockCounter == 120){
+            Random random = new Random();
+            int i = random.nextInt(100)+1; // 1~100
+
+            if(i <= 25) {
+                direction = "up";
             }
+            if(i > 25 && i <= 50) {
+                direction = "down";
+            }
+            if(i > 50 && i <= 70) {
+                direction = "left";
+            }
+            if(i > 70 && i <= 100) {
+                direction = "right";
+            }
+            actionLockCounter = 0;
         }
     }
-
     public void speak() {
         super.speak();
-    }
-
-    public void draw(Graphics2D g2) {
-
-        BufferedImage image = null;
-
-        if(spriteNum == 1) {
-            image = npc0;
-        }
-        if(spriteNum == 2) {
-            image = npc1;
-        }
-        if(spriteNum == 3) {
-            image = npc2;
-        }
-
-        g2.drawImage(image, x, y, null);
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,9 +21,11 @@ import javax.swing.SwingUtilities;
 
 import dto.QuizQuestion;
 import dto.Submit_dto;
+import entity.Player;
 
 
-public class QuizGame extends JPanel  {
+
+public class QuizGame extends JFrame  {
 	// SCREEN SETTING
 	static final int originalTilesize = 16; // 16X16 title
 	static final int scale = 3;
@@ -36,11 +39,10 @@ public class QuizGame extends JPanel  {
 	//11/23
 	private Image screenImage;
 	private Graphics screenGraphic;
-	public static boolean QuizStart=false;
 	//11/23
-	private Image introBackground =  new ImageIcon(this.getClass().getResource("../res/background/QuizGame_images.png")).getImage();
+	private Image introBackground =  new ImageIcon(getClass().getResource("../res/background/QuizGame_images.png")).getImage();
 	
-	private Main main;
+
 //	private GamePanel gp;
 	
 	private JTextArea issues_area;
@@ -48,8 +50,8 @@ public class QuizGame extends JPanel  {
 	private JLabel lbl_quesnum;
 	private JLabel lbl_chapnum;
 	private JLabel timerLabel;
-	private int chap;
-	
+	Player play;
+	GamePanel gp;
 	
 	
 	private Font font = new Font("Monospaced",Font.BOLD,20);
@@ -59,14 +61,13 @@ public class QuizGame extends JPanel  {
 	private ArrayList<QuizQuestion> questions;
 	private String[] user_ansArray= new String[10];
 	
-	public static int currentQuestionIndex = 0;
+	public int currentQuestionIndex = 0;
 	public static String currentUserAnswer;
 	
-	public QuizGame(Main main, int chap) {
-		this.main = main;
+	public QuizGame(GamePanel gp) {
+		this.gp = gp;
 		System.out.println(this);
-		this.chap = chap;
-		questions = db.load_Problem(chap);
+		questions = db.load_Problem(play.currentCh);
 		initialize();
 		displayQuestion();
 		
@@ -76,11 +77,16 @@ public class QuizGame extends JPanel  {
 	}
 
 	private void initialize() {
-
-		this.setLayout(null);
-		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		this.setBackground(Color.GRAY);
-        this.setDoubleBuffered(true);
+		
+		setUndecorated(true);
+		setTitle("DynamicBeat");
+		setSize(screenWidth, screenHeight);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		setBackground(new Color(0,0,0,0));
+		setLayout(null);
         
         
       //문제가 출력되는 창
@@ -107,7 +113,7 @@ public class QuizGame extends JPanel  {
 			}
 		});
 		
-		lbl_chapnum = new JLabel("Chapter : "+ Integer.toString(chap));
+		lbl_chapnum = new JLabel("Chapter : "+ Integer.toString(play.currentCh));
 		lbl_chapnum.setBounds(118, 160, 125, 20);
 		this.add(lbl_chapnum);
 		
@@ -120,7 +126,7 @@ public class QuizGame extends JPanel  {
 		timerLabel.setBackground(Color.WHITE);
 		Font timer_font = new Font("Monospaced",Font.BOLD,16);
 		timerLabel.setFont(timer_font);
-		Timer timer = new Timer(timerLabel, 60);
+		Timer timer = new Timer(timerLabel, 30);
 //		timer.start();
 		timer.startQuizThread();
 		timerLabel.setBounds(580, 213, 95, 28);
@@ -142,7 +148,7 @@ public class QuizGame extends JPanel  {
 			public void actionPerformed(ActionEvent e) {
 
 				timer.stopquizThread();
-				int result = JOptionPane.showConfirmDialog(main, "제출하시겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION);
+				int result = JOptionPane.showConfirmDialog(null, "제출하시겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.CLOSED_OPTION) {
 					timer.startQuizThread();
 				} else if (result == JOptionPane.YES_OPTION) {
@@ -353,6 +359,12 @@ public class QuizGame extends JPanel  {
 		
 	}
 	
+	
+
+	private void setDoubleBuffered(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void displayQuestion() {
     	QuizQuestion currentQuestion = questions.get(currentQuestionIndex);
@@ -414,11 +426,18 @@ public class QuizGame extends JPanel  {
 		}
 		
         JOptionPane.showMessageDialog(this, "총 10문제 중 "+count+"정답 \n 획득 점수는 "+count*10+"입니다!!");
-        
+        JOptionPane.showMessageDialog(this, "집으로 이동하겠습니다.");
         Submit_dto sub = null;
-        sub.score += count*10;
-        sub.chap++;
-        main.change("gamepanel");
+        play.score += count*0.08;
+        play.level = (int)play.score;
+        play.currentCh++;
+        gp.player.x = gp.tileSize*8;
+        gp.player.y = gp.tileSize*14;
+        gp.gameState = gp.playState;
+        
+        dispose();
+        gp.requestFocus();
+        
 //        new Status();
         
         
@@ -484,26 +503,26 @@ public class QuizGame extends JPanel  {
 				} catch (InterruptedException e) {
 					return;
 				}
-				if(minute ==0) {
-					if(second == 0) {
+				if (minute == 0) {
+					if (second == 0) {
 						System.out.println("스레드 종료");
 						break;
-						
+
 					} else {
 						second--;
 					}
-				}else {
-					if(second==0) {
+				} else {
+					if (second == 0) {
 						minute--;
-						second=59;
-					}else {
+						second = 59;
+					} else {
 						second--;
 					}
 				}
-				
-				if(minute==0&&second==0) {
+
+				if (minute == 0 && second == 0) {
 					break;
-					
+
 				}
 
 			}

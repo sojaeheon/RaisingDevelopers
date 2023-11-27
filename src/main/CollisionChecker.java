@@ -4,9 +4,10 @@ import entity.Entity;
 
 public class CollisionChecker {
     GamePanel gp;
-//    HomePanel hp;
-    public CollisionChecker(GamePanel gp) { this.gp = gp; }
-//    public CollisionChecker(HomePanel hp) { this.hp = hp; }
+
+    public CollisionChecker(GamePanel gp) {
+        this.gp = gp;
+    }
 
     public void checkTile(Entity entity) {
         int entityLeftX = entity.x + entity.solidArea.x;
@@ -58,59 +59,124 @@ public class CollisionChecker {
     }
 
     // NPC
-    public void checkEntity(Entity entity) {
-        int entityLeftX = entity.x + entity.solidArea.x;
-        int entityRightX = entity.x + entity.solidArea.x + entity.solidArea.width;
-        int entityTopY = entity.y + entity.solidArea.y;
-        int entityBottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
+    public int checkEntity(Entity entity, Entity[][] target) {
+        int index = 999;
 
-        int entityLeftCol = entityLeftX/gp.tileSize;
-        int entityRightCol = entityRightX/gp.tileSize;
-        int entityTopRow = entityTopY/gp.tileSize;
-        int entityBottomRow = entityBottomY/gp.tileSize;
+        for (int i = 0; i < target[1].length; i++) {
+            if (target[gp.currentMap][i] != null) {
+                // Get entity's solid area position
+                entity.solidArea.x = entity.x + entity.solidArea.x;
+                entity.solidArea.y = entity.y + entity.solidArea.y;
+                // Get the target's solid area position
+                target[gp.currentMap][i].solidArea.x = target[gp.currentMap][i].x + target[gp.currentMap][i].solidArea.x;
+                target[gp.currentMap][i].solidArea.y = target[gp.currentMap][i].y + target[gp.currentMap][i].solidArea.y;
 
-        int tileNum1, tileNum2;
+                switch (entity.direction) {
+                    case "up": entity.solidArea.y -= entity.speed; break;
+                    case "down": entity.solidArea.y += entity.speed; break;
+                    case "left": entity.solidArea.x -= entity.speed; break;
+                    case "right": entity.solidArea.x += entity.speed; break;
+                }
+
+                if (entity.solidArea.intersects(target[gp.currentMap][i].solidArea)) {
+                    if (target[gp.currentMap][i] != entity) {
+                        entity.collisionOn = true;
+                        index = i;
+                    }
+                }
+
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                target[gp.currentMap][i].solidArea.x = target[gp.currentMap][i].solidAreaDefaultX;
+                target[gp.currentMap][i].solidArea.y = target[gp.currentMap][i].solidAreaDefaultY;
+            }
+        }
+        return index;
+    }
+    public boolean checkPlayer(Entity entity) {
+        boolean contactPlayer = false;
+        // Get entity's solid area position
+        entity.solidArea.x = entity.x + entity.solidArea.x;
+        entity.solidArea.y = entity.y + entity.solidArea.y;
+        // Get the target's solid area position
+        gp.player.solidArea.x = gp.player.x + gp.player.solidArea.x;
+        gp.player.solidArea.y = gp.player.y + gp.player.solidArea.y;
 
         switch (entity.direction) {
             case "up":
-                entityTopRow = (entityTopY - entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
-                tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
-                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
-                    entity.collisionNPC = true;
-                }
-                break;
+                entity.solidArea.y -= entity.speed; break;
             case "down":
-                entityBottomRow = (entityBottomY + entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
-                tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
-                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
-                    entity.collisionNPC = true;
-                }
-                break;
+                entity.solidArea.y += entity.speed; break;
             case "left":
-                entityLeftCol = (entityLeftX - entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
-                tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
-                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
-                    entity.collisionNPC = true;
-                }
-                break;
+                entity.solidArea.x -= entity.speed; break;
             case "right":
-                entityRightCol = (entityRightX + entity.speed)/gp.tileSize;
-                tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
-                tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
-                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
-                    entity.collisionNPC = true;
-                }
-                break;
+                entity.solidArea.x += entity.speed; break;
         }
+
+        if (entity.solidArea.intersects(gp.player.solidArea)) {
+            entity.collisionOn = true;
+            contactPlayer = true;
+        }
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+
+        return contactPlayer;
     }
+}
+//        int entityLeftX = entity.X + entity.solidArea.x;
+//        int entityRightX = entity.X + entity.solidArea.x + entity.solidArea.width;
+//        int entityTopY = entity.Y + entity.solidArea.y;
+//        int entityBottomY = entity.Y + entity.solidArea.y + entity.solidArea.height;
+//
+//        int entityLeftCol = entityLeftX/gp.tileSize;
+//        int entityRightCol = entityRightX/gp.tileSize;
+//        int entityTopRow = entityTopY/gp.tileSize;
+//        int entityBottomRow = entityBottomY/gp.tileSize;
+//
+//        int tileNum1, tileNum2;
+//
+//        switch (entity.direction) {
+//            case "up":
+//                entityTopRow = (entityTopY - entity.speed)/gp.tileSize;
+//                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+//                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+//                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
+//                    entity.collisionNPC = true;
+//                }
+//                break;
+//            case "down":
+//                entityBottomRow = (entityBottomY + entity.speed)/gp.tileSize;
+//                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+//                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+//                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
+//                    entity.collisionNPC = true;
+//                }
+//                break;
+//            case "left":
+//                entityLeftCol = (entityLeftX - entity.speed)/gp.tileSize;
+//                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+//                tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+//                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
+//                    entity.collisionNPC = true;
+//                }
+//                break;
+//            case "right":
+//                entityRightCol = (entityRightX + entity.speed)/gp.tileSize;
+//                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+//                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+//                if (gp.tileM.tile[tileNum1].name == "prof" && gp.tileM.tile[tileNum2].name == "prof") {
+//                    entity.collisionNPC = true;
+//                }
+//                break;
+//        }
+//    }
 
 //    public void checkTile_h(Entity entity) {
-//        int entityLeftX = entity.x + entity.solidArea.x;
-//        int entityRightX = entity.x + entity.solidArea.x + entity.solidArea.width;
-//        int entityTopY = entity.y + entity.solidArea.y;
+//        int entityLeftX = entity.X + entity.solidArea.x;
+//        int entityRightX = entity.X + entity.solidArea.x + entity.solidArea.width;
+//        int entityTopY = entity. + entity.solidArea.y;
 //        int entityBottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
 //
 //        int entityLeftCol = entityLeftX / hp.tileSize;
@@ -155,4 +221,4 @@ public class CollisionChecker {
 //                break;
 //        }
 //    }
-}
+//}
