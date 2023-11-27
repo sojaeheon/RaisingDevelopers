@@ -12,7 +12,15 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
-    int standCounter = 0;
+//    int standCounter = 0;
+
+
+
+    public static double score;
+    public static int level= (int)score;
+    public static int currentCh, maxCh;
+
+//    int standCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -42,7 +50,7 @@ public class Player extends Entity {
         // PLAYER STATUS
         this.level = 0; // 레벨
         this.score = 0; // 학점
-        this.currentCh = 1; maxCh = 4; // 현재 챕터, 전체 챕터
+        this.currentCh = 1; maxCh = 5; // 현재 챕터, 전체 챕터
     }
 
     public void setDefaultPositions() {
@@ -72,6 +80,7 @@ public class Player extends Entity {
         right2 = setup("/res/player/right_2", gp.tileSize+5, gp.tileSize+5);
         right3 = setup("/res/player/right_3", gp.tileSize+5, gp.tileSize+5);
     }
+
     public void update() {
 
         if(keyH.upPressed == true || keyH.downPressed == true ||
@@ -93,15 +102,8 @@ public class Player extends Entity {
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
-            // CHECK NPC COLLESION
-            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-            interactNPC(npcIndex);
-
-            // CHECK EVENT
-            gp.eHandler.checkEvent();
-
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
-            if (collisionOn == false && keyH.enterPressed == false) {
+            if (collisionOn == false) {
                 switch (direction) {
                     case "up": y -= speed; break;
                     case "down": y += speed; break;
@@ -109,11 +111,6 @@ public class Player extends Entity {
                     case "right": x += speed; break;
                 }
             }
-
-            if (keyH.enterPressed == true) {
-                spriteCounter = 0;
-            }
-            gp.keyH.enterPressed = false;
 
             spriteCounter++;
             if(spriteCounter > 12) {
@@ -131,46 +128,175 @@ public class Player extends Entity {
         }
     }
 
-    public void interactNPC(int i) {
-        if (gp.keyH.enterPressed == true) {
-            if (i != 999) {
-                gp.gameState = gp.dialogueState;
-                gp.npc[gp.currentMap][i].speak();
+    public void update_h() {
+
+        if(keyH.upPressed == true || keyH.downPressed == true ||
+                keyH.leftPressed == true || keyH.rightPressed == true) {
+            if(keyH.upPressed == true) {
+                direction = "up";
+            }
+            else if(keyH.downPressed == true) {
+                direction = "down";
+            }
+            else if(keyH.leftPressed == true) {
+                direction = "left";
+            }
+            else if(keyH.rightPressed == true) {
+                direction = "right";
+            }
+
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            hp.cChecker.checkTile_h(this);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if (collisionOn == false) {
+                switch (direction) {
+                    case "up": y -= speed; break;
+                    case "down": y += speed; break;
+                    case "left": x -= speed; break;
+                    case "right": x += speed; break;
+                }
+            }
+
+            spriteCounter++;
+            if(spriteCounter > 12) {
+                if(spriteNum == 1) {
+                    spriteNum = 2;
+                }
+                else if (spriteNum == 2) {
+                    spriteNum = 3;
+                }
+                else if (spriteNum == 3) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
             }
         }
-        gp.keyH.enterPressed = false;
     }
 
 
     public void draw(Graphics2D g2) {
+//        g2.setColor(Color.white);
+//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 
         BufferedImage image = null;
 
+        // 확대할 비율 (1.2배로 확대)
+        double scale = 1.2;
+
         switch (direction) {
             case "up":
-                if (spriteNum == 1) {image = up1;}
-                if (spriteNum == 2) {image = up2;}
-                if (spriteNum == 3) {image = up3;}
+                if(spriteNum == 1) {
+                    image = up1;
+                }
+                if(spriteNum == 2) {
+                    image = up2;
+                }
+                if(spriteNum == 3) {
+                    image = up3;
+                }
                 break;
             case "down":
-                if (spriteNum == 1) {image = down1;}
-                if (spriteNum == 2) {image = down2;}
-                if (spriteNum == 3) {image = down3;}
+                if(spriteNum == 1) {
+                    image = down1;
+                }
+                if(spriteNum == 2) {
+                    image = down2;
+                }
+                if(spriteNum == 3) {
+                    image = down3;
+                }
                 break;
             case "left":
-                if (spriteNum == 1) {image = left1;}
-                if (spriteNum == 2) {image = left2;}
-                if (spriteNum == 3) {image = left3;}
+                if(spriteNum == 1) {
+                    image = left1;
+                }
+                if(spriteNum == 2) {
+                    image = left2;
+                }
+                if(spriteNum == 3) {
+                    image = left3;
+                }
                 break;
             case "right":
-                if (spriteNum == 1) {image = right1;}
-                if (spriteNum == 2) {image = right2;}
-                if (spriteNum == 3) {image = right3;}
+                if(spriteNum == 1) {
+                    image = right1;
+                }
+                if(spriteNum == 2) {
+                    image = right2;
+                }
+                if(spriteNum == 3) {
+                    image = right3;
+                }
                 break;
         }
 
-        g2.drawImage(image, x, y, null);
 
-//        g2.drawImage(image, screenX, screenY, null);
+        int PlayerWidth = (int) (gp.tileSize * scale);
+        int PlayerHeight = (int) (gp.tileSize * scale);
+        g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
+    }
+
+    public void draw_h(Graphics2D g2) {
+//        g2.setColor(Color.white);
+//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+
+        BufferedImage image = null;
+
+        // 확대할 비율 (1.2배로 확대)
+        double scale = 1.2;
+
+        switch (direction) {
+            case "up":
+                if (spriteNum == 1) {
+                    image = up1;
+                }
+                if (spriteNum == 2) {
+                    image = up2;
+                }
+                if (spriteNum == 3) {
+                    image = up3;
+                }
+                break;
+            case "down":
+                if (spriteNum == 1) {
+                    image = down1;
+                }
+                if (spriteNum == 2) {
+                    image = down2;
+                }
+                if (spriteNum == 3) {
+                    image = down3;
+                }
+                break;
+            case "left":
+                if (spriteNum == 1) {
+                    image = left1;
+                }
+                if (spriteNum == 2) {
+                    image = left2;
+                }
+                if (spriteNum == 3) {
+                    image = left3;
+                }
+                break;
+            case "right":
+                if (spriteNum == 1) {
+                    image = right1;
+                }
+                if (spriteNum == 2) {
+                    image = right2;
+                }
+                if (spriteNum == 3) {
+                    image = right3;
+                }
+                break;
+        }
+
+
+        int PlayerWidth = (int) (hp.tileSize * scale);
+        int PlayerHeight = (int) (hp.tileSize * scale);
+        g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
     }
 }

@@ -63,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int endingState = 6;
     public final int gameOverState = 7;
     public final int transitionState = 8;
+    public final int load_quiz_state = 9;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -96,6 +97,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
+
 
     public void run() {
         double drawInterval = 1000000000/FPS;

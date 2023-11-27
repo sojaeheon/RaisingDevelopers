@@ -35,9 +35,6 @@ public class Entity {
     public int type; // 0 = Player, 1 = npc
     public String name;
     public int speed;
-    public int level;
-    public double score;
-    public int currentCh, maxCh;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -53,22 +50,7 @@ public class Entity {
         gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex++;
 
-        // 말 걸면 NPC가 마주보게 하는 건데 이 게임에선 안 씀
-//        switch (gp.player.direction) {
-//            case "up":
-//                direction = "down";
-//                break;
-//            case "down":
-//                direction = "up";
-//                break;
-//            case "left":
-//                direction = "right";
-//                break;
-//            case "right":
-//                direction = "left";
-//                break;
-//
-//        }
+
     }
     public void update() {
 

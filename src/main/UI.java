@@ -77,6 +77,10 @@ public class UI {
         // TRASITION STATE
         if (gp.gameState == gp.transitionState) {
             drawTransition();
+
+        //quiz load
+        if(gp.gameState == gp.load_quiz_state) {
+        	drawLoadScreen();
         }
     }
 
@@ -174,6 +178,51 @@ public class UI {
         }
     }
 
+	public void drawLoadScreen() {
+
+		int x = gp.tileSize * 5;
+		int y = gp.tileSize * 6;
+		int width = gp.tileSize * 6;
+		int height = gp.tileSize * 5;
+		String text;
+
+		drawSubWindow(x, y, width, height);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
+
+		// Main
+		text = "문제풀이를";
+		x = getXforCenteredText(text);
+		y = gp.tileSize * 8 - 20;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+
+		text = "시작하시겠습니까?";
+		x = getXforCenteredText(text);
+		y += 20;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+
+		// Retry
+		g2.setFont(g2.getFont().deriveFont(20f));
+		text = "YES";
+		x = getXforCenteredText(text);
+		y += gp.tileSize * 2 - 35;
+		g2.drawString(text, x, y);
+		if (commandNum == 0) {
+			g2.drawString("↪", x - 40, y);
+		}
+
+		// Back to the title screen
+		text = "NO";
+		x = getXforCenteredText(text);
+		y += 40;
+		g2.drawString(text, x, y);
+		if (commandNum == 1) {
+			g2.drawString("↪", x - 40, y);
+		}
+
+	}
+
     public void drawCharacterScreen() {
         // CREATE A FRAME
         final int frameX = gp.tileSize*11;
@@ -206,7 +255,7 @@ public class UI {
         textX = getXforAlignToRightText(value, tallX);
         g2.drawString(value, textX, textY);
         textY += lineHeight;
-        value = String.valueOf(gp.player.score);
+        value = String.format("%.2f", gp.player.score%1.0);
         textX = getXforAlignToRightText(value, tallX);
         g2.drawString(value, textX, textY);
         textY += lineHeight;
