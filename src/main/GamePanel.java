@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 16;
     public final int maxMap = 2;
-    public int currentMap = 0;
+    public int currentMap = 1;
     public final int screenWidth = tileSize * maxScreenCol; //768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
@@ -48,8 +49,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITY
     public Player player = new Player(this, keyH);
-    public Entity npc[] = new Entity[10]; // 이것도 배열로 안 할거
-    ArrayList<Entity> entityList = new ArrayList<>(); // 이거 안 쓸거임 뺄 예정
+    public Entity npc[][] = new Entity[maxMap][10];
+    ArrayList<Entity> entityList = new ArrayList<>();
 
     //GAME STATE
     public int gameState;
@@ -74,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         aSetter.setNPC();
         gameState = titleState;
+//        gameState = gameOverState;
     }
 
     public void retry() {
@@ -128,9 +130,9 @@ public class GamePanel extends JPanel implements Runnable{
             // PLAYER
             player.update();
             // NPC
-            for (int i=0; i< npc.length; i++) {
-                if(npc[i] != null) {
-                    npc[i].update();
+            for (int i=0; i< npc[1].length; i++) {
+                if(npc[currentMap][i] != null) {
+                    npc[currentMap][i].update();
                 }
             }
         }
@@ -168,9 +170,9 @@ public class GamePanel extends JPanel implements Runnable{
             // ADD ENTITIES TO THE LIST
             entityList.add(player);
 
-            for(int i=0; i< npc.length; i++) {
-                if(npc[i] != null) {
-                    entityList.add(npc[i]);
+            for(int i=0; i< npc[1].length; i++) {
+                if(npc[currentMap][i] != null) {
+                    entityList.add(npc[currentMap][i]);
                 }
             }
 

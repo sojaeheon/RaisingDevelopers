@@ -10,8 +10,11 @@ public class AssetSetter {
     }
 
     public void setNPC() {
-        gp.npc[0] = new NPC_Prof(gp);
-        gp.npc[0].x = gp.tileSize*7;
-        gp.npc[0].y = gp.tileSize*3;
+        int mapNum = 1;
+        int i = 0;
+        gp.npc[mapNum][i] = new NPC_Prof(gp);
+        gp.npc[mapNum][i].x = gp.tileSize*7;
+        gp.npc[mapNum][i].y = gp.tileSize*3;
+        i++;
     }
 }

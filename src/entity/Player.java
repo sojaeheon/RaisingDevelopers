@@ -135,7 +135,7 @@ public class Player extends Entity {
         if (gp.keyH.enterPressed == true) {
             if (i != 999) {
                 gp.gameState = gp.dialogueState;
-                gp.npc[i].speak();
+                gp.npc[gp.currentMap][i].speak();
             }
         }
         gp.keyH.enterPressed = false;
