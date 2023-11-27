@@ -39,33 +39,33 @@ public class UI {
         g2.setColor(Color.white);
 
         // TITLE STATE
-        if(gp.gameState == gp.titleState) {
+        if (gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
 
         // PLAY STATE
-        if(gp.gameState == gp.playState) {
+        if (gp.gameState == gp.playState) {
         }
         // PAUSE STATE
-        if(gp.gameState == gp.pauseState) {
+        if (gp.gameState == gp.pauseState) {
             drawPauseScreen();
         }
         // DIALOGUE STATE
-        if(gp.gameState == gp.dialogueState) {
+        if (gp.gameState == gp.dialogueState) {
             drawDialogueScreen();
         }
         // CHARACTER STATE
-        if(gp.gameState == gp.characterState) {
+        if (gp.gameState == gp.characterState) {
             drawCharacterScreen();
         }
 
         // OPTIONS STATE
-        if(gp.gameState == gp.optionsState) {
+        if (gp.gameState == gp.optionsState) {
             drawOptionsScreen();
         }
 
         //ENDING STATE
-        if(gp.gameState == gp.endingState) {
+        if (gp.gameState == gp.endingState) {
             drawEndingScreen();
         }
 
@@ -77,13 +77,12 @@ public class UI {
         // TRASITION STATE
         if (gp.gameState == gp.transitionState) {
             drawTransition();
-
+        }
         //quiz load
-        if(gp.gameState == gp.load_quiz_state) {
-        	drawLoadScreen();
+        if (gp.gameState == gp.load_quiz_state) {
+            drawLoadScreen();
         }
     }
-
     public void drawTitleScreen() {
         int x, y;
         // BACKGROUND IMAGE

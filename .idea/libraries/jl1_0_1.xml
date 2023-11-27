@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jl1.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../디비드라이버,자바줌/jl1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../디비드라이버,자바줌/mysql-connector-j-8.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

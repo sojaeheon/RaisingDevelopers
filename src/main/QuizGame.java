@@ -426,7 +426,6 @@ public class QuizGame extends JFrame  {
 		}
 		
         JOptionPane.showMessageDialog(this, "총 10문제 중 "+count+"정답 \n 획득 점수는 "+count*10+"입니다!!");
-        JOptionPane.showMessageDialog(this, "집으로 이동하겠습니다.");
         Submit_dto sub = null;
         play.score += count*0.08;
         play.level = (int)play.score;
