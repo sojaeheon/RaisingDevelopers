@@ -24,80 +24,143 @@ public class KeyHandler implements KeyListener {
 
         // TITLE STATE
         if (gp.gameState == gp.titleState) {
-            if (code == KeyEvent.VK_W) {
-                gp.ui.commandNum--;
-                if (gp.ui.commandNum < 0) {
-                    gp.ui.commandNum = 1;
-                }
-            }
-            if (code == KeyEvent.VK_S) {
-                gp.ui.commandNum++;
-                if (gp.ui.commandNum > 1) {
-                    gp.ui.commandNum = 0;
-                }
-            }
-            if (code == KeyEvent.VK_ENTER) {
-                if (gp.ui.commandNum == 0) {
-                    gp.gameState = gp.playState;
-//                    gp.playMusic(0);
-                }
-                if (gp.ui.commandNum == 1) {
-                    System.exit(0);
-                }
-            }
+            titleState(code);
         }
 
         // PLAY STATE
-        if (gp.gameState == gp.playState) {
-            if (code == KeyEvent.VK_W) {
-                upPressed = true;
-            }
-            if (code == KeyEvent.VK_S) {
-                downPressed = true;
-            }
-            if (code == KeyEvent.VK_A) {
-                leftPressed = true;
-            }
-            if (code == KeyEvent.VK_D) {
-                rightPressed = true;
-            }
-            if (code == KeyEvent.VK_P) {
-                gp.gameState = gp.pauseState;
-            }
-            if (code == KeyEvent.VK_ENTER) {
-                enterPressed = true;
-            }
-//            if (code == KeyEvent.VK_T) {
-//                if (checkDrawTime == false) {
-//                    checkDrawTime = true;
-//                }
-//                else if (checkDrawTime == true) {
-//                    checkDrawTime = false;
-//                }
-//            }
-            if (code == KeyEvent.VK_R) {
-                switch (gp.currentMap) {
-                    case 0: gp.tileM.loadMap("/res/background/map_Home.txt", 0);
-                            gp.bgM.getImage("Home");
-                            break;
-                    case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1);
-                        gp.bgM.getImage("Lab");
-                        break;
-                }
-            }
+        else if (gp.gameState == gp.playState) {
+            playState(code);
         }
 
         // PAUSE STATE
         else if (gp.gameState == gp.pauseState) {
-            if (code == KeyEvent.VK_P) {
-                gp.gameState = gp.playState;
-            }
+            pauseState(code);
         }
 
         // DIALOGUE STATE
         else if (gp.gameState == gp.dialogueState) {
-            if(code == KeyEvent.VK_ENTER) {
+            dialogueState(code);
+        }
+
+        // CHARACTER STATE
+        else if (gp.gameState == gp.characterState) {
+            characterState(code);
+        }
+
+        // OPTIONS STATE
+        else if (gp.gameState == gp.optionsState) {
+            optionsState(code);
+        }
+
+        // GAME OVER STATE
+        else if (gp.gameState == gp.gameOverState) {
+            gameOverState(code);
+        }
+    }
+
+    public void titleState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            if (gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            if (gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
                 gp.gameState = gp.playState;
+//                    gp.playMusic(0);
+            }
+            if (gp.ui.commandNum == 1) {
+                System.exit(0);
+            }
+        }
+    }
+    public void playState(int code) {
+        if (code == KeyEvent.VK_W) {
+            upPressed = true;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = true;
+        }
+        if (code == KeyEvent.VK_A) {
+            leftPressed = true;
+        }
+        if (code == KeyEvent.VK_D) {
+            rightPressed = true;
+        }
+        if (code == KeyEvent.VK_P) {
+            gp.gameState = gp.pauseState;
+        }
+        if (code == KeyEvent.VK_C) {
+            gp.gameState = gp.characterState;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+//        if (code == KeyEvent.VK_ESCAPE) {
+//            gp.gameState = gp.optionsState;
+//        }
+
+        // DEBUG
+        if (code == KeyEvent.VK_T) {
+            if (checkDrawTime == false) {
+                checkDrawTime = true;
+            }
+            else if (checkDrawTime == true) {
+                checkDrawTime = false;
+            }
+        }
+    }
+    public void pauseState(int code) {
+        if (code == KeyEvent.VK_P) {
+            gp.gameState = gp.playState;
+        }
+    }
+    public void dialogueState(int code) {
+        if(code == KeyEvent.VK_ENTER) {
+            gp.gameState = gp.playState;
+        }
+    }
+    public void characterState(int code) {
+        if (code == KeyEvent.VK_C) {
+            gp.gameState = gp.playState;
+        }
+    }
+    public void optionsState(int code) {
+
+        if (code == KeyEvent.VK_ESCAPE) {
+            gp.gameState = gp.playState;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+    }
+    public void gameOverState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            if (gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            if (gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
+                gp.gameState = gp.playState;
+                gp.restart();
+            }
+            else if (gp.ui.commandNum == 1) {
+                System.exit(0);
             }
         }
     }
