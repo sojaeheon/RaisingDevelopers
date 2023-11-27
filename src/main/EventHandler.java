@@ -6,6 +6,7 @@ public class EventHandler {
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int tempMap, tempCol, tempRow;
 
     public EventHandler(GamePanel gp) {
         this.gp = gp;
@@ -80,16 +81,16 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row) {
+        gp.gameState = gp.transitionState;
+        tempMap = map;
+        tempCol = col;
+        tempRow = row;
+//        gp.currentMap = map;
+//        gp.player.x = gp.tileSize*col;
+//        gp.player.y = gp.tileSize*row;
+//        previousEventX = gp.player.x;
+//        previousEventY = gp.player.y;
+//        canTouchEvent = false;
 
-        gp.currentMap = map;
-        gp.player.x = gp.tileSize*col;
-        gp.player.y = gp.tileSize*row;
-        previousEventX = gp.player.x;
-        previousEventY = gp.player.y;
-        canTouchEvent = false;
-        switch (gp.currentMap) {
-            case 0: gp.tileM.loadMap("/res/background/map_Home.txt", 0); gp.bgM.getImage("Home"); break;
-            case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1); gp.bgM.getImage("Lab"); break;
-        }
     }
 }

@@ -21,6 +21,7 @@ public class UI {
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
+    int counter = 0;
 
 
     public UI(GamePanel gp) {
@@ -71,6 +72,11 @@ public class UI {
         // GAME OVER STATE
         if (gp.gameState == gp.gameOverState) {
             drawGameOverScreen();
+        }
+
+        // TRASITION STATE
+        if (gp.gameState == gp.transitionState) {
+            drawTransition();
         }
     }
 
@@ -263,6 +269,26 @@ public class UI {
         g2.drawString(text, x, y);
         if (commandNum == 1) {
             g2.drawString("↪", x-40, y);
+        }
+    }
+
+    public void drawTransition() {
+        counter++;
+        g2.setColor(new Color(0,0,0, counter*5));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        if (counter == 50) {
+            counter = 0;
+            gp.gameState = gp.playState;
+            gp.currentMap = gp.eHandler.tempMap;
+            switch (gp.currentMap) {
+                case 0: gp.tileM.loadMap("/res/background/map_Home.txt", 0); gp.bgM.getImage("Home"); break;
+                case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1); gp.bgM.getImage("Lab"); break;
+            }
+            gp.player.x = gp.tileSize*gp.eHandler.tempCol;
+            gp.player.y = gp.tileSize*gp.eHandler.tempRow;
+            gp.eHandler.previousEventX = gp.player.x;
+            gp.eHandler.previousEventY = gp.player.y;
         }
     }
 

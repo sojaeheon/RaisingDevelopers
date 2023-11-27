@@ -18,16 +18,16 @@ public class NPC_Prof extends Entity {
     public void getImage() {
         up1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         up2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
-        up3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        up3 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         down1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         down2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
-        down3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        down3 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         left1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         left2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
-        left3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        left3 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         right1 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
         right2 = setup("/res/npc/Npc1", gp.tileSize, gp.tileSize);
-        right3 = setup("/res/npc/Npc2", gp.tileSize, gp.tileSize);
+        right3 = setup("/res/npc/Npc0", gp.tileSize, gp.tileSize);
     }
 
     public void setDialogue() {
@@ -39,29 +39,29 @@ public class NPC_Prof extends Entity {
         dialogues[5] = "오늘도 파이팅이다! \n그럼 이만..";
     }
 
-    public void setAction() {
-
-        actionLockCounter ++;
-
-        if(actionLockCounter == 120){
-            Random random = new Random();
-            int i = random.nextInt(100)+1; // 1~100
-
-            if(i <= 25) {
-                direction = "up";
-            }
-            if(i > 25 && i <= 50) {
-                direction = "down";
-            }
-            if(i > 50 && i <= 70) {
-                direction = "left";
-            }
-            if(i > 70 && i <= 100) {
-                direction = "right";
-            }
-            actionLockCounter = 0;
-        }
-    }
+//    public void setAction() {
+//
+//        actionLockCounter ++;
+//
+//        if(actionLockCounter == 120){
+//            Random random = new Random();
+//            int i = random.nextInt(100)+1; // 1~100
+//
+//            if(i <= 25) {
+//                direction = "up";
+//            }
+//            if(i > 25 && i <= 50) {
+//                direction = "down";
+//            }
+//            if(i > 50 && i <= 70) {
+//                direction = "left";
+//            }
+//            if(i > 70 && i <= 100) {
+//                direction = "right";
+//            }
+//            actionLockCounter = 0;
+//        }
+//    }
     public void speak() {
         super.speak();
     }

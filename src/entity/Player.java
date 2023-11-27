@@ -34,8 +34,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        x = gp.tileSize*12;
-        y = gp.tileSize*13;
+        x = gp.tileSize*9;
+        y = gp.tileSize*9;
         speed = 4;
         direction = "down";
 
@@ -46,8 +46,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultPositions() {
-        x = gp.tileSize*12;
-        y = gp.tileSize*13;
+        x = gp.tileSize*9;
+        y = gp.tileSize*9;
         speed = 4;
         direction = "down";
     }
