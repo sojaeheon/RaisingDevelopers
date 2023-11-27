@@ -1,3 +1,4 @@
+package main;
 //package SoTest;
 //import java.awt.Color;
 //

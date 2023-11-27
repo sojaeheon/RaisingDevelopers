@@ -1,4 +1,4 @@
-package SoTest;
+package main;
 
 
 import java.awt.*;
@@ -20,9 +20,19 @@ import javax.swing.SwingUtilities;
 
 import dto.QuizQuestion;
 import dto.Submit_dto;
-import SoTest.KeyListener;
+
 
 public class QuizGame extends JPanel  {
+	// SCREEN SETTING
+	static final int originalTilesize = 16; // 16X16 title
+	static final int scale = 3;
+
+	public final static int tileSize = originalTilesize * scale; // 48*48 title
+	public final static int maxScreenCol = 16;
+	public final static int maxScreenRow = 16;
+	public final static int screenWidth = tileSize * maxScreenCol; // 768 pixels
+	public final static int screenHeight = tileSize * maxScreenRow; // 768 pixels
+	
 	//11/23
 	private Image screenImage;
 	private Graphics screenGraphic;
@@ -30,7 +40,8 @@ public class QuizGame extends JPanel  {
 	//11/23
 	private Image introBackground =  new ImageIcon(this.getClass().getResource("../res/background/QuizGame_images.png")).getImage();
 	
-	private Main testScreen;
+	private Main main;
+//	private GamePanel gp;
 	
 	private JTextArea issues_area;
 	private JTextField input_area;
@@ -51,15 +62,15 @@ public class QuizGame extends JPanel  {
 	public static int currentQuestionIndex = 0;
 	public static String currentUserAnswer;
 	
-	public QuizGame(Main testScreen, int chap) {
-		this.testScreen = testScreen;
+	public QuizGame(Main main, int chap) {
+		this.main = main;
+		System.out.println(this);
 		this.chap = chap;
 		questions = db.load_Problem(chap);
 		initialize();
 		displayQuestion();
 		
-		Music introMusic = new Music("introMusic.mp3",true);
-		introMusic.start();
+
 		
 		
 	}
@@ -67,7 +78,7 @@ public class QuizGame extends JPanel  {
 	private void initialize() {
 
 		this.setLayout(null);
-		this.setPreferredSize(new Dimension(Main.screenWidth, Main.screenHeight));
+		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
         
@@ -77,17 +88,17 @@ public class QuizGame extends JPanel  {
 		issues_area.setEditable(false);
 		issues_area.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		issues_area.setLineWrap(true);
-		issues_area.setBounds(83,202,470,189);
+		issues_area.setBounds(85,213,481,201);
 		issues_area.setFont(font);
 		this.add(issues_area);
 		
 		//답 입력창
 		input_area = new JTextField();
-		input_area.setBounds(81,395,475,40);
+		input_area.setBounds(82,416,485,43);
 		this.add(input_area);
 		input_area.setColumns(10);
 		input_area.requestFocus();
-		input_area.addKeyListener(new KeyListener() {
+		input_area.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -97,11 +108,11 @@ public class QuizGame extends JPanel  {
 		});
 		
 		lbl_chapnum = new JLabel("Chapter : "+ Integer.toString(chap));
-		lbl_chapnum.setBounds(115, 152, 125, 20);
+		lbl_chapnum.setBounds(118, 160, 125, 20);
 		this.add(lbl_chapnum);
 		
 		lbl_quesnum = new JLabel("문제 : "+Integer.toString(Submit_dto.chap));
-		lbl_quesnum.setBounds(82, 187, 76, 13);
+		lbl_quesnum.setBounds(85, 197, 76, 13);
 		this.add(lbl_quesnum);
 		
 		timerLabel = new JLabel();
@@ -109,10 +120,42 @@ public class QuizGame extends JPanel  {
 		timerLabel.setBackground(Color.WHITE);
 		Font timer_font = new Font("Monospaced",Font.BOLD,16);
 		timerLabel.setFont(timer_font);
-		Timer timer = new Timer(timerLabel, 2);
-		timer.start();
-		timerLabel.setBounds(575, 208, 70, 15);
+		Timer timer = new Timer(timerLabel, 60);
+//		timer.start();
+		timer.startQuizThread();
+		timerLabel.setBounds(580, 213, 95, 28);
 		add(timerLabel);
+//		if(timer.getState()== Thread.State.TERMINATED) {
+//			checkAnswer();
+//		}
+		
+		Music introMusic = new Music("introMusic.mp3",true);
+		introMusic.start();
+		
+		
+		//제출버튼
+		JButton btn_submit = new JButton("제출");
+		btn_submit.setBounds(605, 465, 70, 22);
+		this.add(btn_submit);
+		btn_submit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				timer.stopquizThread();
+				int result = JOptionPane.showConfirmDialog(main, "제출하시겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.CLOSED_OPTION) {
+					timer.startQuizThread();
+				} else if (result == JOptionPane.YES_OPTION) {
+					checkAnswer();
+
+				} else {
+					timer.startQuizThread();
+
+				}
+
+			}
+
+		});
 		
 		//이전 문제 이동
 		JButton btn_left = new JButton("<");
@@ -122,7 +165,7 @@ public class QuizGame extends JPanel  {
 				
 			}
 		});
-		btn_left.setBounds(220, 445, 63, 22);
+		btn_left.setBounds(230, 465, 63, 22);
 		this.add(btn_left);
 		
 		//다음 문제 이동
@@ -133,7 +176,7 @@ public class QuizGame extends JPanel  {
 
 			}
 		});
-		btn_right.setBounds(310, 445, 63, 22);
+		btn_right.setBounds(320, 465, 63, 22);
 		this.add(btn_right);
 		
 		
@@ -152,7 +195,7 @@ public class QuizGame extends JPanel  {
 				
 			}
 		});
-		btn_1.setBounds(562, 240, 100, 15);
+		btn_1.setBounds(575, 263, 100, 15);
 		this.add(btn_1);
 		
 		//2번 문제로 이동
@@ -169,7 +212,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_2.setBounds(562, 260, 100, 15);
+		btn_2.setBounds(575, 283, 100, 15);
 		this.add(btn_2);
 		
 		//3번 문제로 이동
@@ -186,7 +229,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_3.setBounds(562, 280, 100, 15);
+		btn_3.setBounds(575, 303, 100, 15);
 		this.add(btn_3);
 		
 		//4번 문제로 이동
@@ -203,7 +246,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_4.setBounds(562, 300, 100, 15);
+		btn_4.setBounds(575, 323, 100, 15);
 		this.add(btn_4);
 		
 		//5번 문제로 이동
@@ -220,7 +263,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_5.setBounds(562, 320, 100, 15);
+		btn_5.setBounds(575, 343, 100, 15);
 		this.add(btn_5);
 		
 		//6번 문제로 이동
@@ -237,7 +280,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_6.setBounds(562, 340, 100, 15);
+		btn_6.setBounds(575, 363, 100, 15);
 		this.add(btn_6);
 		
 		//7번 문제로 이동
@@ -254,7 +297,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_7.setBounds(562, 360, 100, 15);
+		btn_7.setBounds(575, 383, 100, 15);
 		this.add(btn_7);
 		
 		//8번 문제로 이동
@@ -271,7 +314,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_8.setBounds(562, 380, 100, 15);
+		btn_8.setBounds(575, 403, 100, 15);
 		this.add(btn_8);
 		
 		//9번 문제로 이동
@@ -288,7 +331,7 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_9.setBounds(562, 400, 100, 15);
+		btn_9.setBounds(575, 423, 100, 15);
 		this.add(btn_9);
 		
 		//10번 문제로 이동
@@ -305,28 +348,8 @@ public class QuizGame extends JPanel  {
 		        input_area.setText(user_ansArray[currentQuestionIndex]);
 			}
 		});
-		btn_10.setBounds(562, 420, 100, 15);
+		btn_10.setBounds(575, 443, 100, 15);
 		this.add(btn_10);
-		
-		
-
-		//제출버튼
-		JButton btn_submit = new JButton("제출");
-		btn_submit.setBounds(590, 445, 70, 22);
-		this.add(btn_submit);
-		btn_submit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-        		timer.interrupt();
-        		
-                checkAnswer();
-                
-            }
-
-        });
-		
-		
-		
 		
 	}
 	
@@ -390,14 +413,12 @@ public class QuizGame extends JPanel  {
 			
 		}
 		
-		
-
         JOptionPane.showMessageDialog(this, "총 10문제 중 "+count+"정답 \n 획득 점수는 "+count*10+"입니다!!");
         
         Submit_dto sub = null;
         sub.score += count*10;
         sub.chap++;
-        testScreen.change("gamepanel");
+        main.change("gamepanel");
 //        new Status();
         
         
@@ -406,7 +427,7 @@ public class QuizGame extends JPanel  {
 	
 	//11/23
 	public void paint(Graphics g) {
-		screenImage = createImage(Main.screenWidth, Main.screenHeight);
+		screenImage = createImage(screenWidth, screenHeight);
 		screenGraphic = screenImage.getGraphics();
 		screenDraw(screenGraphic);
 		g.drawImage(screenImage, 0, 0, null);
@@ -415,14 +436,15 @@ public class QuizGame extends JPanel  {
 	
 	
 	public void screenDraw(Graphics g) {
-		g.drawImage(introBackground, 0, 0, this.getWidth(), this.getHeight(), 0, 0, Main.screenWidth, Main.screenHeight, null);
+		g.drawImage(introBackground, 0, 0, this.getWidth(), this.getHeight(), 0, 0, screenWidth, screenHeight, null);
 		this.paintComponents(g);
 		this.repaint();
 	}
 	
-	public class Timer extends Thread{
+	public class Timer implements Runnable{
 		
 		private JLabel timerLabel;
+		Thread times;
 		
 
 		private int minute;
@@ -438,14 +460,24 @@ public class QuizGame extends JPanel  {
 			
 		}
 		
+		
+		public void startQuizThread() {
+			times = new Thread(this);
+			times.start();
+		}
+		
+		public void stopquizThread() {
+			times.interrupt();
+		}
+
 
 		@Override
 		public void run() {
 			
-
 			// TODO Auto-generated method stub
 			while (true) {
 				timerLabel.setText(minute + " : " + second);
+				timerLabel.setHorizontalTextPosition(timerLabel.CENTER);
 				
 				try {
 					Thread.sleep(1000);
@@ -474,9 +506,8 @@ public class QuizGame extends JPanel  {
 					
 				}
 
-				
 			}
-			if(minute==0&& second==0) {
+			if(minute==0 && second==0) {
 				checkAnswer();
 			}
 			
@@ -484,8 +515,11 @@ public class QuizGame extends JPanel  {
 		
 
 		}
+	
 		
 		
 	}
+	
+	
 	
 }

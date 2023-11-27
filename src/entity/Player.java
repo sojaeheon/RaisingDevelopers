@@ -1,46 +1,42 @@
 package entity;
 
+import main.*;
+
 import javax.imageio.ImageIO;
-
-import SoTest.GamePanel;
-import SoTest.HomePanel;
-import SoTest.KeyHandler;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import main.GamePanel;
 
-public class Player extends Entity implements Runnable {
-
-    GamePanel gp;
-    HomePanel hp;
+public class Player extends Entity {
+//    HomePanel hp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
 
+
     int counter2 = 0;
 
-    public Player(HomePanel hp, KeyHandler keyH) {
-        this.hp = hp;
-        this.keyH = keyH;
-
-
-        screenX = hp.screenWidth/2 - (hp.tileSize/2);
-        screenY = hp.screenHeight/2 - (hp.tileSize/2);
-
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidArea.width = 32;
-        solidArea.height = 32;
-
-        setDefaultValues_h();
-        getPlayerImage();
-    }
+//    public Player(HomePanel hp, KeyHandler keyH) {
+//        this.hp = hp;
+//        this.keyH = keyH;
+//
+//        screenX = hp.screenWidth/2 - (hp.tileSize/2);
+//        screenY = hp.screenHeight/2 - (hp.tileSize/2);
+//
+//        solidArea = new Rectangle();
+//        solidArea.x = 8;
+//        solidArea.y = 16;
+//        solidArea.width = 32;
+//        solidArea.height = 32;
+//
+//        setDefaultValues_h();
+//        getPlayerImage();
+//    }
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
@@ -49,6 +45,8 @@ public class Player extends Entity implements Runnable {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -57,46 +55,62 @@ public class Player extends Entity implements Runnable {
     }
 
     public void setDefaultValues() {
-        x = 600;
-        y = 100;
+//        col = 10;
+//        row = 12;
+        x = 500;
+        y = 500;
         speed = 4;
         direction = "down";
     }
 
-    public void setDefaultValues_h() {
-        x = 600;
-        y = 200;
-        speed = 4;
-        direction = "down";
-    }
+//    private boolean directionChanged = false;
+//    public void changeDirection(String dir) {
+//        if (!directionChanged) {
+//            this.direction = dir;
+//            directionChanged = true;
+//        }
+//    }
+
+//    public void setDefaultValues_h() {
+//        x = 600;
+//        y = 200;
+//        speed = 4;
+//        direction = "down";
+//    }
 
     public void getPlayerImage() {
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_2.png"));
-            up3 = ImageIO.read(getClass().getResourceAsStream("/res/player/up_3.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_2.png"));
-            down3 = ImageIO.read(getClass().getResourceAsStream("/res/player/down_3.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_2.png"));
-            left3 = ImageIO.read(getClass().getResourceAsStream("/res/player/left_3.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_2.png"));
-            right3 = ImageIO.read(getClass().getResourceAsStream("/res/player/right_3.png"));
+        up1 = setup("up_1");
+        up2 = setup("up_2");
+        up3 = setup("up_3");
+        down1 = setup("down_1");
+        down2 = setup("down_2");
+        down3 = setup("down_3");
+        left1 = setup("left_1");
+        left2 = setup("left_2");
+        left3 = setup("left_3");
+        right1 = setup("right_1");
+        right2 = setup("right_2");
+        right3 = setup("right_3");
+    }
 
-        }catch (IOException e) {
+    public BufferedImage setup(String imageName) {
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/res/player/" + imageName + ".png"));
+            image = uTool.scaleImage(image, gp.tileSize+5, gp.tileSize+5);
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        return image;
     }
 
     public void update() {
-    	
+
         if(keyH.upPressed == true || keyH.downPressed == true ||
                 keyH.leftPressed == true || keyH.rightPressed == true) {
             if(keyH.upPressed == true) {
                 direction = "up";
-
             }
             else if(keyH.downPressed == true) {
                 direction = "down";
@@ -112,6 +126,15 @@ public class Player extends Entity implements Runnable {
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            // CHECK NPC COLLISION
+            gp.cChecker.checkEntity(this);
+
+            // CHECK EVENT
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
+
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false) {
                 switch (direction) {
@@ -119,6 +142,11 @@ public class Player extends Entity implements Runnable {
                     case "down": y += speed; break;
                     case "left": x -= speed; break;
                     case "right": x += speed; break;
+                }
+            }
+            else if (collisionNPC == true) {
+                switch (direction) {
+                    case "left": interactNPC(); break;
                 }
             }
 
@@ -135,6 +163,13 @@ public class Player extends Entity implements Runnable {
                 }
                 spriteCounter = 0;
             }
+        }
+    }
+
+    public void interactNPC() {
+        if (gp.keyH.enterPressed == true) {
+            gp.gameState = gp.dialogueState;
+            gp.npc.speak();
         }
     }
 
@@ -157,7 +192,7 @@ public class Player extends Entity implements Runnable {
 
             // CHECK TILE COLLISION
             collisionOn = false;
-            hp.cChecker.checkTile_h(this);
+//            hp.cChecker.checkTile_h(this);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false) {
@@ -187,8 +222,6 @@ public class Player extends Entity implements Runnable {
 
 
     public void draw(Graphics2D g2) {
-//        g2.setColor(Color.white);
-//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 
         BufferedImage image = null;
 
@@ -242,10 +275,8 @@ public class Player extends Entity implements Runnable {
                 break;
         }
 
-
-        int PlayerWidth = (int) (gp.tileSize * scale);
-        int PlayerHeight = (int) (gp.tileSize * scale);
-        g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
+//        g2.drawImage(image, gp.tileSize*col, gp.tileSize*row, null);
+        g2.drawImage(image, x, y, null);
     }
 
     public void draw_h(Graphics2D g2) {
@@ -305,14 +336,8 @@ public class Player extends Entity implements Runnable {
         }
 
 
-        int PlayerWidth = (int) (hp.tileSize * scale);
-        int PlayerHeight = (int) (hp.tileSize * scale);
-        g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
+//        int PlayerWidth = (int) (hp.tileSize * scale);
+//        int PlayerHeight = (int) (hp.tileSize * scale);
+//        g2.drawImage(image, x, y, PlayerWidth, PlayerHeight, null);
     }
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
 }

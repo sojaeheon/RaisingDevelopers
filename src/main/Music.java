@@ -1,4 +1,4 @@
-package SoTest;
+package main;
 
 import java.io.BufferedInputStream;
 import java.io.File;
