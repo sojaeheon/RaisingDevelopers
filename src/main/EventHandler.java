@@ -84,16 +84,20 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row) {
-        gp.gameState = gp.transitionState;
-        tempMap = map;
-        tempCol = col;
-        tempRow = row;
+        if (gp.player.currentCh >=3 && gp.player.score >= 2.0) {
+            gp.gameState = gp.gameOverState;
+        }
+        else {
+            gp.gameState = gp.transitionState;
+            tempMap = map;
+            tempCol = col;
+            tempRow = row;
 //        gp.currentMap = map;
 //        gp.player.x = gp.tileSize*col;
 //        gp.player.y = gp.tileSize*row;
 //        previousEventX = gp.player.x;
 //        previousEventY = gp.player.y;
 //        canTouchEvent = false;
-
+        }
     }
 }

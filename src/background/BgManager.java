@@ -48,6 +48,7 @@ public class BgManager extends Bg {
 
             case 0: getImage("Home"); break;
             case 1 : getImage("Lab"); break;
+            case 2 : getImage("End"); break;
         }
 
     }

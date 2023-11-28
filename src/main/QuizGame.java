@@ -422,32 +422,23 @@ public class QuizGame extends JFrame  {
 		}
 
 		JOptionPane.showMessageDialog(this, "총 10문제 중 "+count+"정답 \n 획득 점수는 "+count*10+"입니다!!");
-		if (gp.player.currentCh > 4 && gp.player.score >= 3.0) {
-			gp.gameState = gp.endingState;
-			dispose();
-		}
-		else if (gp.player.currentCh > 2 && gp.player.score < 1) {
-			gp.gameState = gp.gameOverState;
-			dispose();
-		}
-		else {
-			JOptionPane.showMessageDialog(this, "집으로 이동합니다.");
-			Submit_dto sub = null;
-			gp.player.score += count * 0.08;
-			gp.player.level = (int) gp.player.score;
-			gp.player.currentCh++;
-			gp.gameState = gp.transitionState;
+		JOptionPane.showMessageDialog(this, "집으로 이동합니다.");
+        Submit_dto sub = null;
+        gp.player.score += count*1.0;
+		gp.player.level = (int)gp.player.score;
+		gp.player.currentCh++;
+		gp.gameState = gp.transitionState;
 //		int tempMap = gp.currentMap;
 //		int tempCol = col;
 //		int tempRow = row;
-			gp.eHandler.tempMap = 0;
-			gp.eHandler.tempCol = 8;
-			gp.eHandler.tempRow = 14;
+		gp.eHandler.tempMap = 0;
+        gp.eHandler.tempCol = 8;
+        gp.eHandler.tempRow = 14;
 //        gp.gameState = gp.playState;
 
-			dispose();
-			gp.requestFocus();
-		}
+        dispose();
+        gp.requestFocus();
+
 //        new Status();
 
 
