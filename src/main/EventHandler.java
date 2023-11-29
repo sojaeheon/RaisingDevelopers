@@ -50,6 +50,7 @@ public class EventHandler {
             {teleport(0,9,12);}
             else if ((hit(0,13,4,"any") == true || hit(0,12,4,"any") == true))
             {teleport(1,13,3);}
+//            else if ((hit()))
             else if ((hit(1,8,13,"any"))==true) {
             	gp.gameState = gp.load_quiz_state;
             }

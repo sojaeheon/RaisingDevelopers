@@ -81,9 +81,8 @@ public class KeyHandler implements KeyListener {
             }
             else if (gp.ui.commandNum == 1) {
                 gp.gameState = gp.playState;
-                gp.currentMap = 1;
                 gp.player.x = gp.tileSize*8;
-                gp.player.y = gp.tileSize*14;
+                gp.player.y = gp.tileSize*14-10;
 
             }
         }
