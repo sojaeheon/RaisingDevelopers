@@ -6,6 +6,7 @@ public class EventHandler {
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int tempMap, tempCol, tempRow;
 
     public EventHandler(GamePanel gp) {
         this.gp = gp;
@@ -48,9 +49,24 @@ public class EventHandler {
             if ((hit(1,13,2,"any") == true || hit(1,13,2,"any") == true))
             {teleport(0,9,12);}
             else if ((hit(0,13,4,"any") == true || hit(0,12,4,"any") == true))
-            {teleport(1,13,3);}
+            {
+            	if (gp.player.currentCh >= 0 && gp.player.score >= 0.0) {
+            		
+            		gp.eHandler.tempMap = 2;
+            		gp.eHandler.tempCol = 7;
+            		gp.eHandler.tempRow = 14;
+            		gp.gameState = gp.transitionState;
+        		}else {
+        			teleport(1,13,3);
+        		}
+            	
+            }
             else if ((hit(1,8,13,"any"))==true) {
             	gp.gameState = gp.load_quiz_state;
+            }
+            else if((hit(2,7,4,"any")==true)||(hit(2,8,4,"any")==true)) {
+            	gp.gameState = gp.rankingState;
+            	
             }
         }
     }
@@ -82,17 +98,21 @@ public class EventHandler {
         return hit;
     }
 
-    public void teleport(int map, int col, int row) {
+	public void teleport(int map, int col, int row) {
+		
 
-        gp.currentMap = map;
-        gp.player.x = gp.tileSize*col;
-        gp.player.y = gp.tileSize*row;
-        previousEventX = gp.player.x;
-        previousEventY = gp.player.y;
-        canTouchEvent = false;
-        switch (gp.currentMap) {
-            case 0: gp.tileM.loadMap("/res/background/map_Home.txt", 0); gp.bgM.getImage("Home"); break;
-            case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1); gp.bgM.getImage("Lab"); break;
-        }
-    }
+
+		gp.gameState = gp.transitionState;
+		tempMap = map;
+		tempCol = col;
+		tempRow = row;
+//        gp.currentMap = map;
+//        gp.player.x = gp.tileSize*col;
+//        gp.player.y = gp.tileSize*row;
+//        previousEventX = gp.player.x;
+//        previousEventY = gp.player.y;
+//        canTouchEvent = false;
+	}
+    
+
 }

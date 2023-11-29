@@ -12,13 +12,15 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
-    
-    
+//    int standCounter = 0;
+
+
+
     public static double score;
     public static int level= (int)score;
     public static int currentCh, maxCh;
-    
-    int standCounter = 0;
+
+//    int standCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -41,7 +43,7 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         x = gp.tileSize*9;
-        y = gp.tileSize*13;
+        y = gp.tileSize*9;
         speed = 4;
         direction = "down";
 
@@ -52,8 +54,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultPositions() {
-        x = gp.tileSize*12;
-        y = gp.tileSize*13;
+        x = gp.tileSize*9;
+        y = gp.tileSize*9;
         speed = 4;
         direction = "down";
     }
@@ -78,6 +80,7 @@ public class Player extends Entity {
         right2 = setup("/res/player/right_2", gp.tileSize+5, gp.tileSize+5);
         right3 = setup("/res/player/right_3", gp.tileSize+5, gp.tileSize+5);
     }
+
     public void update() {
 
         if(keyH.upPressed == true || keyH.downPressed == true ||
@@ -136,7 +139,6 @@ public class Player extends Entity {
             }
         }
     }
-
     public void interactNPC(int i) {
         if (gp.keyH.enterPressed == true) {
             if (i != 999) {
@@ -150,33 +152,31 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2) {
 
-        BufferedImage image = null;
+            BufferedImage image = null;
 
-        switch (direction) {
-            case "up":
-                if (spriteNum == 1) {image = up1;}
-                if (spriteNum == 2) {image = up2;}
-                if (spriteNum == 3) {image = up3;}
-                break;
-            case "down":
-                if (spriteNum == 1) {image = down1;}
-                if (spriteNum == 2) {image = down2;}
-                if (spriteNum == 3) {image = down3;}
-                break;
-            case "left":
-                if (spriteNum == 1) {image = left1;}
-                if (spriteNum == 2) {image = left2;}
-                if (spriteNum == 3) {image = left3;}
-                break;
-            case "right":
-                if (spriteNum == 1) {image = right1;}
-                if (spriteNum == 2) {image = right2;}
-                if (spriteNum == 3) {image = right3;}
-                break;
-        }
+            switch (direction) {
+                case "up":
+                    if (spriteNum == 1) {image = up1;}
+                    if (spriteNum == 2) {image = up2;}
+                    if (spriteNum == 3) {image = up3;}
+                    break;
+                case "down":
+                    if (spriteNum == 1) {image = down1;}
+                    if (spriteNum == 2) {image = down2;}
+                    if (spriteNum == 3) {image = down3;}
+                    break;
+                case "left":
+                    if (spriteNum == 1) {image = left1;}
+                    if (spriteNum == 2) {image = left2;}
+                    if (spriteNum == 3) {image = left3;}
+                    break;
+                case "right":
+                    if (spriteNum == 1) {image = right1;}
+                    if (spriteNum == 2) {image = right2;}
+                    if (spriteNum == 3) {image = right3;}
+                    break;
+            }
 
-        g2.drawImage(image, x, y, null);
-
-//        g2.drawImage(image, screenX, screenY, null);
+            g2.drawImage(image, x, y, null);
     }
 }

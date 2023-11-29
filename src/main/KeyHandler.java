@@ -21,6 +21,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
+        
 
         // TITLE STATE
         if (gp.gameState == gp.titleState) {
@@ -56,14 +57,46 @@ public class KeyHandler implements KeyListener {
         else if (gp.gameState == gp.gameOverState) {
             gameOverState(code);
         }
-        
+
         else if(gp.gameState == gp.load_quiz_state) {
-       	 	load_quiz(code);
-       }
+            load_quiz(code);
+        }
+        else if(gp.gameState == gp.endingState) {
+        	load_ending(code);
+        }
+        else if(gp.gameState == gp.rankingState) {
+        	load_ranking(code);
+        }
+    }
+    public void load_ranking(int code) {
+    	if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
+            	new RankPanel(gp);
+                
+            }
+            }
+    	
     }
     
+    public void load_ending(int code) {
+    	if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
+            	gp.gameState = gp.playState;
+                
+            }
+//            else if (gp.ui.commandNum == 1) {
+//            	gp.eHandler.tempMap = 2;
+//                gp.eHandler.tempCol = 7;
+//                gp.eHandler.tempRow = 14;
+//
+//            }
+        }
+    	
+    	
+    }
+
     public void load_quiz(int code) {
-    	if (code == KeyEvent.VK_W) {
+        if (code == KeyEvent.VK_W) {
             gp.ui.commandNum--;
             if (gp.ui.commandNum < 0) {
                 gp.ui.commandNum = 1;
@@ -77,14 +110,14 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
-           	 new QuizGame(gp);
+                new QuizGame(gp);
             }
             else if (gp.ui.commandNum == 1) {
                 gp.gameState = gp.playState;
                 gp.currentMap = 1;
                 gp.player.x = gp.tileSize*8;
                 gp.player.y = gp.tileSize*14;
-                
+
             }
         }
     }
@@ -113,7 +146,7 @@ public class KeyHandler implements KeyListener {
         }
     }
     public void playState(int code) {
-        if (code == KeyEvent.VK_W) {
+        if (code == KeyEvent.VK_W ) {
             upPressed = true;
         }
         if (code == KeyEvent.VK_S) {
@@ -188,7 +221,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
                 gp.gameState = gp.playState;
-                gp.restart();
+                gp.retry();
             }
             else if (gp.ui.commandNum == 1) {
                 System.exit(0);

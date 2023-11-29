@@ -21,6 +21,8 @@ public class UI {
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
+    int counter = 0;
+    boolean i = true;
 
 
     public UI(GamePanel gp) {
@@ -38,33 +40,33 @@ public class UI {
         g2.setColor(Color.white);
 
         // TITLE STATE
-        if(gp.gameState == gp.titleState) {
+        if (gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
 
         // PLAY STATE
-        if(gp.gameState == gp.playState) {
+        if (gp.gameState == gp.playState) {
         }
         // PAUSE STATE
-        if(gp.gameState == gp.pauseState) {
+        if (gp.gameState == gp.pauseState) {
             drawPauseScreen();
         }
         // DIALOGUE STATE
-        if(gp.gameState == gp.dialogueState) {
+        if (gp.gameState == gp.dialogueState) {
             drawDialogueScreen();
         }
         // CHARACTER STATE
-        if(gp.gameState == gp.characterState) {
+        if (gp.gameState == gp.characterState) {
             drawCharacterScreen();
         }
 
         // OPTIONS STATE
-        if(gp.gameState == gp.optionsState) {
+        if (gp.gameState == gp.optionsState) {
             drawOptionsScreen();
         }
 
         //ENDING STATE
-        if(gp.gameState == gp.endingState) {
+        if (gp.gameState == gp.endingState) {
             drawEndingScreen();
         }
 
@@ -72,13 +74,64 @@ public class UI {
         if (gp.gameState == gp.gameOverState) {
             drawGameOverScreen();
         }
-        
+
+        // TRASITION STATE
+        if (gp.gameState == gp.transitionState) {
+            drawTransition();
+        }
         //quiz load
-        if(gp.gameState == gp.load_quiz_state) {
-        	drawLoadScreen();
+        if (gp.gameState == gp.load_quiz_state) {
+            drawLoadScreen();
+        }
+        
+        if(gp.gameState == gp.rankingState){
+        	graduation();
+        	
         }
     }
+    //이게 졸업식인데 이부분을 교수님 말씀으로 대체하는게 어떨까 하는데 도지현!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void graduation() {
+    	
+    	int x = gp.tileSize * 1;
+		int y = gp.tileSize * 6;
+		int width = gp.tileSize * 14;
+		int height = gp.tileSize * 5;
+		String text;
 
+		drawSubWindow(x, y, width, height);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
+
+		// Main
+		text = "졸업을 진심으로 축하드립니다!!";
+		x = getXforCenteredText(text);
+		y = gp.tileSize * 8 - 20;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+
+		text = "당신의 앞날이 늘 기쁨과 행복만이 가득하길 바라겠습니다.";
+		x = getXforCenteredText(text);
+		y += 20;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+		
+		text = "수고하셨습니다^ㅡ^";
+		x = getXforCenteredText(text);
+		y += 40;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+
+		// Retry
+		g2.setFont(g2.getFont().deriveFont(20f));
+		text = "YES";
+		x = getXforCenteredText(text);
+		y += gp.tileSize * 2 - 35;
+		g2.drawString(text, x, y);
+		if (commandNum == 0) {
+			g2.drawString("↪", x - 40, y);
+		}
+    	
+    }
+    
     public void drawTitleScreen() {
         int x, y;
         // BACKGROUND IMAGE
@@ -172,7 +225,7 @@ public class UI {
             y += 40;
         }
     }
-    
+
 	public void drawLoadScreen() {
 
 		int x = gp.tileSize * 5;
@@ -274,6 +327,43 @@ public class UI {
     }
 
     public void drawEndingScreen() {
+    	
+    	
+		
+    	
+    	int x = gp.tileSize * 4;
+		int y = gp.tileSize * 6;
+		int width = gp.tileSize * 8;
+		int height = gp.tileSize * 5;
+		String text;
+
+		drawSubWindow(x, y, width, height);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
+
+		// Main
+		text = "모든 문제를 풀었습니다.";
+		x = getXforCenteredText(text);
+		y = gp.tileSize * 8 - 20;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+
+		text = "졸업식을 위해 문으로 나가시오.";
+		x = getXforCenteredText(text);
+		y += 20;
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+
+		// Retry
+		g2.setFont(g2.getFont().deriveFont(20f));
+		text = "YES";
+		x = getXforCenteredText(text);
+		y += gp.tileSize * 2 - 35;
+		g2.drawString(text, x, y);
+		if (commandNum == 0) {
+			g2.drawString("↪", x - 40, y);
+		}
+		
+		
 
     }
 
@@ -314,6 +404,40 @@ public class UI {
         if (commandNum == 1) {
             g2.drawString("↪", x-40, y);
         }
+    }
+
+    public void drawTransition() {
+        counter++;
+        g2.setColor(new Color(0,0,0, counter*5));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        if (counter == 50) {
+            counter = 0;
+            gp.gameState = gp.playState;
+            gp.currentMap = gp.eHandler.tempMap;
+            switch (gp.currentMap) {
+            	
+                case 0: {gp.tileM.loadMap("/res/background/map_Home.txt", 0); gp.bgM.getImage("Home");		
+                	if (gp.player.currentCh >= 4 && gp.player.score >= 4.0) {
+
+//        			gp.eHandler.tempMap = 0;
+//        	        gp.eHandler.tempCol = 8;
+//        	        gp.eHandler.tempRow = 14;
+//        	        gp.gameState = gp.transitionState;
+        			
+        			gp.gameState = gp.endingState;
+        	        
+                	} 	
+                	break;}
+                case 1: gp.tileM.loadMap("/res/background/map_Lab.txt", 1); gp.bgM.getImage("Lab"); break;
+                case 2: gp.tileM.loadMap("/res/baekground/map_End.txt", 2); gp.bgM.getImage("End");break;
+            }
+            gp.player.x = gp.tileSize*gp.eHandler.tempCol;
+            gp.player.y = gp.tileSize*gp.eHandler.tempRow;
+            gp.eHandler.previousEventX = gp.player.x;
+            gp.eHandler.previousEventY = gp.player.y;
+        }
+        
     }
 
     public void drawSubWindow(int x, int y, int width, int height) {

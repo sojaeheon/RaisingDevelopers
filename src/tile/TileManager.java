@@ -17,12 +17,13 @@ public class TileManager {
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[15];
+        tile = new Tile[16];
         mapTileNum = new int[gp.maxMap][gp.maxScreenCol][gp.maxScreenRow];
 
         getTileImage();
         loadMap("/res/background/map_Home.txt", 0);
         loadMap("/res/background/map_Lab.txt", 1);
+        loadMap("/res/background/map_End.txt", 2);
     }
 
     public void getTileImage() {
@@ -45,6 +46,10 @@ public class TileManager {
         setup(12, "tile", true);    // 침대
         setup(13, "tile", true);   // 책장
         setup(14, "tile", false);    // 바닥
+        
+        // Ending
+        setup(15, "tile", true);     // 벽
+        
     }
 
     public void setup(int index, String imageName, boolean collision) {
