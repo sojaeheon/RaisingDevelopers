@@ -290,6 +290,7 @@ public class RankPanel extends JFrame {
 		}
 		;
 		this.paintComponents(g);
+		this.repaint();
 	}
 
 
