@@ -1,5 +1,6 @@
 package main;
 
+import entity.NPC_Cat;
 import entity.NPC_Prof;
 
 public class AssetSetter {
@@ -10,11 +11,12 @@ public class AssetSetter {
     }
 
     public void setNPC() {
-        int mapNum = 1;
+        int mapNum = 0;
         int i = 0;
+        gp.npc[mapNum][i] = new NPC_Cat(gp);
+
+        mapNum = 1;
+        i = 0;
         gp.npc[mapNum][i] = new NPC_Prof(gp);
-        gp.npc[mapNum][i].x = gp.tileSize*7;
-        gp.npc[mapNum][i].y = gp.tileSize*3;
-        i++;
     }
 }

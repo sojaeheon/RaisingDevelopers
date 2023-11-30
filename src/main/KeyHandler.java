@@ -21,7 +21,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
-        
+
 
         // TITLE STATE
         if (gp.gameState == gp.titleState) {
@@ -72,17 +72,17 @@ public class KeyHandler implements KeyListener {
     	if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
             	new RankPanel(gp);
-                
+
             }
             }
-    	
+
     }
-    
+
     public void load_ending(int code) {
     	if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
             	gp.gameState = gp.playState;
-                
+
             }
 //            else if (gp.ui.commandNum == 1) {
 //            	gp.eHandler.tempMap = 2;
@@ -91,8 +91,8 @@ public class KeyHandler implements KeyListener {
 //
 //            }
         }
-    	
-    	
+
+
     }
 
     public void load_quiz(int code) {
@@ -114,9 +114,8 @@ public class KeyHandler implements KeyListener {
             }
             else if (gp.ui.commandNum == 1) {
                 gp.gameState = gp.playState;
-                gp.currentMap = 1;
                 gp.player.x = gp.tileSize*8;
-                gp.player.y = gp.tileSize*14;
+                gp.player.y = gp.tileSize*14-10;
 
             }
         }
@@ -221,7 +220,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
                 gp.gameState = gp.playState;
-                gp.retry();
+                gp.restart();
             }
             else if (gp.ui.commandNum == 1) {
                 System.exit(0);

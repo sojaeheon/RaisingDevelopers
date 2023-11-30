@@ -50,7 +50,21 @@ public class Entity {
         gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex++;
 
-
+        // 말 걸면 NPC가 마주보게 하는 건데 이 게임에선 안 씀
+        switch (gp.player.direction) {
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
+        }
     }
     public void update() {
 
@@ -62,43 +76,45 @@ public class Entity {
 
     }
     public void draw(Graphics2D g2) {
-
-        BufferedImage image = null;
-//        int screenX = x - gp.player.x + gp.player.screenX;
-//        int screenY = y - gp.player.y + gp.player.screenY;
-
-        if (x + gp.tileSize > gp.player.x - gp.player.screenX &&
-            x - gp.tileSize < gp.player.x + gp.player.screenX &&
-            y + gp.tileSize > gp.player.y - gp.player.screenY &&
-            y - gp.tileSize < gp.player.y + gp.player.screenY) {
-
-            switch (direction) {
-                case "up":
-                    if(gp.player.spriteNum == 1) {image = up1;}
-                    if(gp.player.spriteNum == 2) {image = up2;}
-                    if(gp.player.spriteNum == 3) {image = up3;}
-                    break;
-                case "down":
-                    if(gp.player.spriteNum == 1) {image = down1;}
-                    if(gp.player.spriteNum == 2) {image = down2;}
-                    if(gp.player.spriteNum == 3) {image = down3;}
-                    break;
-                case "left":
-                    if(gp.player.spriteNum == 1) {image = left1;}
-                    if(gp.player.spriteNum == 2) {image = left2;}
-                    if(gp.player.spriteNum == 3) {image = left3;}
-                    break;
-                case "right":
-                    if(gp.player.spriteNum == 1) {image = right1;}
-                    if(gp.player.spriteNum == 2) {image = right2;}
-                    if(gp.player.spriteNum == 3) {image = right3;}
-                    break;
-            }
-
-            g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        switch (gp.currentMap) {
+            case 0:
+                x = gp.tileSize*7;
+                y = gp.tileSize*13;
+                break;
+            case 1:
+                x = gp.tileSize*2 - gp.tileSize/2 - 10;
+                y = gp.tileSize*6 - 40;
+                break;
         }
 
+        BufferedImage image = null;
+
+        switch (direction) {
+            case "up":
+                if(gp.player.spriteNum == 1) {image = up1;}
+                if(gp.player.spriteNum == 2) {image = up2;}
+                if(gp.player.spriteNum == 3) {image = up3;}
+                break;
+            case "down":
+                if(gp.player.spriteNum == 1) {image = down1;}
+                if(gp.player.spriteNum == 2) {image = down2;}
+                if(gp.player.spriteNum == 3) {image = down3;}
+                break;
+            case "left":
+                if(gp.player.spriteNum == 1) {image = left1;}
+                if(gp.player.spriteNum == 2) {image = left2;}
+                if(gp.player.spriteNum == 3) {image = left3;}
+                break;
+            case "right":
+                if(gp.player.spriteNum == 1) {image = right1;}
+                if(gp.player.spriteNum == 2) {image = right2;}
+                if(gp.player.spriteNum == 3) {image = right3;}
+                break;
+        }
+
+        g2.drawImage(image, x, y, gp.tileSize+20, gp.tileSize+20, null);
     }
+
 
     public BufferedImage setup(String imagePath, int width, int height) {
         UtilityTool uTool = new UtilityTool();

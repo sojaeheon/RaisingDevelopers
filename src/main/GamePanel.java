@@ -82,12 +82,6 @@ public class GamePanel extends JPanel implements Runnable{
 //        gameState = gameOverState;
     }
 
-    public void retry() {
-        player.setDefaultPositions();
-        player.restoreStatus();
-        aSetter.setNPC();
-    }
-
     public void restart() {
         player.setDefaultValues();
         player.setDefaultPositions();
