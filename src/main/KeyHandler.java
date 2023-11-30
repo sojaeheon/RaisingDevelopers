@@ -93,6 +93,24 @@ public class KeyHandler implements KeyListener {
         }
 
 
+        else if(gp.gameState == gp.load_minigame1_state) {
+            load_mini1(code);
+        }
+        else if (gp.gameState == gp.minigame1_state) {
+            load_mini1(code);
+        }
+        else if(gp.gameState == gp.load_minigame2_state) {
+            load_mini2(code);
+        }
+        else if (gp.gameState == gp.minigame2_state) {
+            load_mini2(code);
+        }
+        else if(gp.gameState == gp.load_minigame3_state) {
+            load_mini3(code);
+        }
+        else if (gp.gameState == gp.minigame3_state) {
+            load_mini3(code);
+        }
     }
 
     public void load_quiz(int code) {
@@ -115,7 +133,87 @@ public class KeyHandler implements KeyListener {
             else if (gp.ui.commandNum == 1) {
                 gp.gameState = gp.playState;
                 gp.player.x = gp.tileSize*8;
-                gp.player.y = gp.tileSize*14-10;
+                gp.player.y = gp.tileSize*14;
+
+            }
+        }
+    }
+    public void load_mini2(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            if (gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            if (gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
+                new Baseball(gp);
+            }
+            else if (gp.ui.commandNum == 1) {
+                gp.gameState = gp.playState;
+                gp.currentMap = 0;
+                gp.player.x = gp.tileSize*8;
+                gp.player.y = gp.tileSize*14;
+
+            }
+        }
+    }
+
+    public void load_mini3(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            if (gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            if (gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
+                new catchMoles(gp);
+            }
+            else if (gp.ui.commandNum == 1) {
+                gp.gameState = gp.playState;
+                gp.currentMap = 0;
+                gp.player.x = gp.tileSize*8;
+                gp.player.y = gp.tileSize*14;
+
+            }
+        }
+    }
+
+    public void load_mini1(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.ui.commandNum--;
+            if (gp.ui.commandNum < 0) {
+                gp.ui.commandNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.ui.commandNum++;
+            if (gp.ui.commandNum > 1) {
+                gp.ui.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
+                new SlotMachine(gp);
+            }
+            else if (gp.ui.commandNum == 1) {
+                gp.gameState = gp.playState;
+                gp.currentMap = 0;
+                gp.player.x = gp.tileSize*8;
+                gp.player.y = gp.tileSize*14;
 
             }
         }

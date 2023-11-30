@@ -4,6 +4,7 @@ public class EventHandler {
     GamePanel gp;
     EventRect eventRect[][][];
 
+    static int cnt = 0;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
     int tempMap, tempCol, tempRow;
@@ -51,7 +52,7 @@ public class EventHandler {
             else if ((hit(0,13,4,"any") == true || hit(0,12,4,"any") == true))
             {
             	if (gp.player.currentCh >= 0 && gp.player.score >= 0.0) {
-            		
+
             		gp.eHandler.tempMap = 2;
             		gp.eHandler.tempCol = 7;
             		gp.eHandler.tempRow = 14;
@@ -59,14 +60,33 @@ public class EventHandler {
         		}else {
         			teleport(1,13,3);
         		}
-            	
+            	if((gp.player.level >= 1) && (cnt == 0) && (gp.player.level <2))
+            	{
+            		gp.gameState = gp.load_minigame1_state;
+            		cnt++;
+            	}
+            	else if((gp.player.level >= 2) && (cnt == 1) && (gp.player.level <3))
+            	{
+            		gp.gameState = gp.load_minigame2_state;
+            		cnt++;
+            	}
+            	else if((gp.player.level >= 3) && (cnt == 2))
+            	{
+            		gp.gameState = gp.load_minigame3_state;
+            		cnt = 0;
+            	}
+            	else
+            	{
+            		teleport(1,13,3);
+            	}
+
             }
             else if ((hit(1,8,13,"any"))==true) {
             	gp.gameState = gp.load_quiz_state;
             }
             else if((hit(2,7,4,"any")==true)||(hit(2,8,4,"any")==true)) {
             	gp.gameState = gp.rankingState;
-            	
+
             }
         }
     }
@@ -99,7 +119,7 @@ public class EventHandler {
     }
 
 	public void teleport(int map, int col, int row) {
-		
+
 
 
 		gp.gameState = gp.transitionState;
@@ -113,6 +133,6 @@ public class EventHandler {
 //        previousEventY = gp.player.y;
 //        canTouchEvent = false;
 	}
-    
+
 
 }

@@ -66,6 +66,12 @@ public class GamePanel extends JPanel implements Runnable{
     public final int transitionState = 8;
     public final int load_quiz_state = 9;
     public final int rankingState = 10;
+    public final int load_minigame1_state = 11;
+    public final int load_minigame2_state = 12;
+    public final int load_minigame3_state = 13;
+    public final int minigame1_state = 14;
+    public final int minigame2_state = 15;
+    public final int minigame3_state = 16;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -80,6 +86,12 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setNPC();
         gameState = titleState;
 //        gameState = gameOverState;
+    }
+
+    public void retry() {
+        player.setDefaultPositions();
+        player.restoreStatus();
+        aSetter.setNPC();
     }
 
     public void restart() {
