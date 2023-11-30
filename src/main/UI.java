@@ -395,7 +395,7 @@ public class UI {
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
 
 		// Main
-		text = "엠티에";
+		text = "축제에";
 		x = getXforCenteredText(text);
 		y = gp.tileSize * 8 - 20;
 		g2.setColor(Color.white);

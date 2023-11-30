@@ -67,6 +67,24 @@ public class KeyHandler implements KeyListener {
         else if(gp.gameState == gp.rankingState) {
         	load_ranking(code);
         }
+        else if(gp.gameState == gp.load_minigame1_state) {
+            load_mini1(code);
+        }
+        else if (gp.gameState == gp.minigame1_state) {
+            load_mini1(code);
+        }
+        else if(gp.gameState == gp.load_minigame2_state) {
+            load_mini2(code);
+        }
+        else if (gp.gameState == gp.minigame2_state) {
+            load_mini2(code);
+        }
+        else if(gp.gameState == gp.load_minigame3_state) {
+            load_mini3(code);
+        }
+        else if (gp.gameState == gp.minigame3_state) {
+            load_mini3(code);
+        }
     }
     public void load_ranking(int code) {
     	if (code == KeyEvent.VK_ENTER) {
@@ -93,24 +111,7 @@ public class KeyHandler implements KeyListener {
         }
 
 
-        else if(gp.gameState == gp.load_minigame1_state) {
-            load_mini1(code);
-        }
-        else if (gp.gameState == gp.minigame1_state) {
-            load_mini1(code);
-        }
-        else if(gp.gameState == gp.load_minigame2_state) {
-            load_mini2(code);
-        }
-        else if (gp.gameState == gp.minigame2_state) {
-            load_mini2(code);
-        }
-        else if(gp.gameState == gp.load_minigame3_state) {
-            load_mini3(code);
-        }
-        else if (gp.gameState == gp.minigame3_state) {
-            load_mini3(code);
-        }
+
     }
 
     public void load_quiz(int code) {

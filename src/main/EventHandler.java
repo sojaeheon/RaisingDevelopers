@@ -57,10 +57,8 @@ public class EventHandler {
             		gp.eHandler.tempCol = 7;
             		gp.eHandler.tempRow = 14;
             		gp.gameState = gp.transitionState;
-        		}else {
-        			teleport(1,13,3);
         		}
-            	if((gp.player.level >= 1) && (cnt == 0) && (gp.player.level <2))
+            	else if((gp.player.level >= 1) && (cnt == 0) && (gp.player.level <2))
             	{
             		gp.gameState = gp.load_minigame1_state;
             		cnt++;
