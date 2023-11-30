@@ -131,8 +131,6 @@ public class QuizGame extends JFrame  {
 //			checkAnswer();
 //		}
 
-		Music introMusic = new Music("introMusic.mp3",true);
-		introMusic.start();
 
 
 		//제출버튼

@@ -19,16 +19,10 @@ public class Music extends Thread {
 			file = new File(Main.class.getResource("../Musics/"+name).toURI());
 			fis = new FileInputStream(file);
 			bis = new BufferedInputStream(fis);
-//			musicPlayer = new Player(bis);
+			musicPlayer = new Player(bis);
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	public int getTime() {
-		if(musicPlayer == null)
-			return 0;
-		return musicPlayer.getPosition();
 	}
 
 	public void close() {

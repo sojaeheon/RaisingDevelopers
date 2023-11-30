@@ -49,14 +49,17 @@ public class UI {
         }
         // PAUSE STATE
         if (gp.gameState == gp.pauseState) {
+        	
             drawPauseScreen();
         }
         // DIALOGUE STATE
         if (gp.gameState == gp.dialogueState) {
+        	
             drawDialogueScreen();
         }
         // CHARACTER STATE
         if (gp.gameState == gp.characterState) {
+        	
             drawCharacterScreen();
         }
 

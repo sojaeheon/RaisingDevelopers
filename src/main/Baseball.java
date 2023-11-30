@@ -19,6 +19,8 @@ public class Baseball extends JFrame implements ActionListener, KeyListener{
    final int MAX_THROW = 10;
    int cnfThrow = 0;
    static double score = 0;
+   
+   Music baseMusic = new Music("base_bgm.mp3",true);
 
    Player player;
    public Baseball(GamePanel gp)
@@ -30,6 +32,8 @@ public class Baseball extends JFrame implements ActionListener, KeyListener{
       setUndecorated(true);
       setBounds(720, 250, 500, 400);
       setVisible(true);
+      
+      baseMusic.start();
    }
 
    public void Initialize()
@@ -172,6 +176,7 @@ public class Baseball extends JFrame implements ActionListener, KeyListener{
          gp.eHandler.tempRow = 14;
          gp.gameState = gp.transitionState;
          this.dispose();
+         baseMusic.close();
       }
       cnfThrow++;
       chnum.setText((MAX_THROW-cnfThrow)+"");

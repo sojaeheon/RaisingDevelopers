@@ -37,13 +37,16 @@ public class GamePanel extends JPanel implements Runnable{
     BgManager bgM = new BgManager(this);
     TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
-    Sound music = new Sound();
-    Sound se = new Sound();
+//    Sound music = new Sound();
+//    Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     public EventHandler eHandler = new EventHandler(this);
     Thread gameThread;
+    
+    public static Music GameMusic = new Music("home_bgm.wav",true);
+    public Music graduation = new Music("graduation.mp3",true);
 
 
 
@@ -79,13 +82,17 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        
+        
+        GameMusic.start();
     }
 
     public void setupGame() {
 
         aSetter.setNPC();
         gameState = titleState;
-//        gameState = gameOverState;
+//        playMusic(0);
+        
     }
 
     public void retry() {

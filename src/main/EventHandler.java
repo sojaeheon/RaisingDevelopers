@@ -51,12 +51,19 @@ public class EventHandler {
             {teleport(0,9,12);}
             else if ((hit(0,13,4,"any") == true || hit(0,12,4,"any") == true))
             {
-            	if (gp.player.currentCh >= 0 && gp.player.score >= 0.0) {
+            	if (gp.player.currentCh >= 4 ) {
+            		if(gp.player.score >= 4.0) {
+            			gp.eHandler.tempMap = 2;
+                		gp.eHandler.tempCol = 7;
+                		gp.eHandler.tempRow = 14;
+                		gp.gameState = gp.transitionState;
+                		gp.GameMusic.close();
+                		gp.graduation.start();
+            		}else if(gp.player.score<4.0) {
+            			gp.gameState = gp.gameOverState;
+            		}
 
-            		gp.eHandler.tempMap = 2;
-            		gp.eHandler.tempCol = 7;
-            		gp.eHandler.tempRow = 14;
-            		gp.gameState = gp.transitionState;
+            	
         		}
             	else if((gp.player.level >= 1) && (cnt == 0) && (gp.player.level <2))
             	{

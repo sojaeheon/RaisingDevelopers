@@ -5,8 +5,6 @@ import main.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import main.GamePanel;
-
 public class Player extends Entity {
     KeyHandler keyH;
 
@@ -139,9 +137,12 @@ public class Player extends Entity {
             }
         }
     }
+    
     public void interactNPC(int i) {
         if (gp.keyH.enterPressed == true) {
             if (i != 999) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
                 gp.gameState = gp.dialogueState;
                 gp.npc[gp.currentMap][i].speak();
             }

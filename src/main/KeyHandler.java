@@ -89,6 +89,9 @@ public class KeyHandler implements KeyListener {
     public void load_ranking(int code) {
     	if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
+//    			gp.graduation.close();
             	new RankPanel(gp);
 
             }
@@ -99,6 +102,8 @@ public class KeyHandler implements KeyListener {
     public void load_ending(int code) {
     	if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
             	gp.gameState = gp.playState;
 
             }
@@ -129,6 +134,8 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
                 new QuizGame(gp);
             }
             else if (gp.ui.commandNum == 1) {
@@ -154,6 +161,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
+//    			gp.GameMusic.close();
                 new Baseball(gp);
             }
             else if (gp.ui.commandNum == 1) {
@@ -181,6 +191,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
+//    			gp.GameMusic.close();
                 new catchMoles(gp);
             }
             else if (gp.ui.commandNum == 1) {
@@ -208,6 +221,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             if (gp.ui.commandNum == 0) {
+            	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+    			buttonEnteredMusic.start();
+//            	gp.GameMusic.close();
                 new SlotMachine(gp);
             }
             else if (gp.ui.commandNum == 1) {
@@ -234,6 +250,8 @@ public class KeyHandler implements KeyListener {
             }
         }
         if (code == KeyEvent.VK_ENTER) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             if (gp.ui.commandNum == 0) {
                 gp.gameState = gp.playState;
 //                    gp.playMusic(0);
@@ -257,9 +275,13 @@ public class KeyHandler implements KeyListener {
             rightPressed = true;
         }
         if (code == KeyEvent.VK_P) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.gameState = gp.pauseState;
         }
         if (code == KeyEvent.VK_C) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.gameState = gp.characterState;
         }
         if (code == KeyEvent.VK_ENTER) {
@@ -281,16 +303,22 @@ public class KeyHandler implements KeyListener {
     }
     public void pauseState(int code) {
         if (code == KeyEvent.VK_P) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.gameState = gp.playState;
         }
     }
     public void dialogueState(int code) {
         if(code == KeyEvent.VK_ENTER) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.gameState = gp.playState;
         }
     }
     public void characterState(int code) {
         if (code == KeyEvent.VK_C) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.gameState = gp.playState;
         }
     }
@@ -305,18 +333,24 @@ public class KeyHandler implements KeyListener {
     }
     public void gameOverState(int code) {
         if (code == KeyEvent.VK_W) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.ui.commandNum--;
             if (gp.ui.commandNum < 0) {
                 gp.ui.commandNum = 1;
             }
         }
         if (code == KeyEvent.VK_S) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             gp.ui.commandNum++;
             if (gp.ui.commandNum > 1) {
                 gp.ui.commandNum = 0;
             }
         }
         if (code == KeyEvent.VK_ENTER) {
+        	Music buttonEnteredMusic = new Music("btn_press2.mp3",false);
+			buttonEnteredMusic.start();
             if (gp.ui.commandNum == 0) {
                 gp.gameState = gp.playState;
                 gp.restart();

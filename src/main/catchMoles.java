@@ -29,6 +29,8 @@ public class catchMoles extends JFrame implements ActionListener,Runnable{
    static int n = 5; //초를 나타내는 변수
    static double scr = 0;
    GamePanel gp;
+   
+   Music catchMusic = new Music("catch_bgm.mp3",true);
 
    catchMoles(GamePanel gp){
       setTitle("두더지 잡기");
@@ -67,6 +69,7 @@ public class catchMoles extends JFrame implements ActionListener,Runnable{
       setUndecorated(true);
       setBounds(720, 250, 500, 500);
       setVisible(true);
+      catchMusic.start();
    }
    //시작 버튼 누르면 실행
    public void Start() {
@@ -145,6 +148,7 @@ public class catchMoles extends JFrame implements ActionListener,Runnable{
       gp.eHandler.tempCol = 8;
       gp.eHandler.tempRow = 14;
       gp.gameState = gp.transitionState;
+      catchMusic.close();
       this.dispose();
 
    }

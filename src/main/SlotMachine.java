@@ -12,6 +12,9 @@ public class SlotMachine extends JFrame implements ActionListener {
     private final JLabel[] reels = new JLabel[3];
     private final JButton spinButton;
     static double score = 0;
+    
+    Music slotMusic = new Music("slot_bgm.mp3",true);
+    
     public SlotMachine(GamePanel gp) {
         setTitle("Slot Machine");
         this.gp =gp;
@@ -32,6 +35,7 @@ public class SlotMachine extends JFrame implements ActionListener {
         setUndecorated(true);
         setBounds(670, 250, 600, 220);
         setVisible(true);
+        slotMusic.start();
     }
 
     @Override
@@ -65,12 +69,15 @@ public class SlotMachine extends JFrame implements ActionListener {
         System.out.println(score);
 
         JOptionPane.showMessageDialog(this, "끝났습니다.");
+        
 //      gp.Level_status++;
         gp.requestFocus();
         gp.eHandler.tempMap = 0;
         gp.eHandler.tempCol = 8;
         gp.eHandler.tempRow = 14;
         gp.gameState = gp.transitionState;
+        slotMusic.close();
+        
         this.dispose();
     }
 
