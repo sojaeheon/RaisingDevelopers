@@ -59,18 +59,16 @@ public class EventHandler {
                 		gp.gameState = gp.transitionState;
                 		gp.GameMusic.close();
                 		gp.graduation.start();
-            		}else if(gp.player.score<4.0) {
-            			gp.gameState = gp.gameOverState;
             		}
 
             	
         		}
-            	else if((gp.player.level >= 1) && (cnt == 0) && (gp.player.level <2))
+            	else if((gp.player.level >= 1) && (cnt == 0) )
             	{
             		gp.gameState = gp.load_minigame1_state;
             		cnt++;
             	}
-            	else if((gp.player.level >= 2) && (cnt == 1) && (gp.player.level <3))
+            	else if((gp.player.level >= 2) && (cnt == 1) )
             	{
             		gp.gameState = gp.load_minigame2_state;
             		cnt++;
@@ -78,7 +76,7 @@ public class EventHandler {
             	else if((gp.player.level >= 3) && (cnt == 2))
             	{
             		gp.gameState = gp.load_minigame3_state;
-            		cnt = 0;
+            		cnt++;
             	}
             	else
             	{
